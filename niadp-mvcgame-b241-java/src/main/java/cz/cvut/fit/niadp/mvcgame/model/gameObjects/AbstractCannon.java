@@ -9,6 +9,12 @@ public  abstract class AbstractCannon extends GameObject {
     public abstract void moveUp();
     public abstract void moveDown();
 
+    public abstract void aimUp();
+    public abstract void aimDown();
+    public abstract void powerUp();
+    public abstract void powerDown();
+
+
     public abstract AbstractMissile shoot();
 
     public void accept(IVisitor visitor){

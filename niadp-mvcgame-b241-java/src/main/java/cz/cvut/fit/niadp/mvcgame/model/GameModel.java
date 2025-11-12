@@ -63,6 +63,23 @@ public class GameModel implements IObservable{
         notifyObservers();
     }
 
+    public void aimCannonUp() {
+        cannon.aimUp();
+        notifyObservers();
+    }
+    public void aimCannonDown() {
+        cannon.aimDown();
+        notifyObservers();
+    }
+    public void cannonPowerUp() {
+        cannon.powerUp();
+        notifyObservers();
+    }
+    public void cannonPowerDown() {
+        cannon.powerDown();
+        notifyObservers();
+    }
+
     public Set<AbstractMissile> getMissiles(){
         return missiles;
     }

@@ -8,12 +8,16 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractCannon;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 
 public class CannonA extends AbstractCannon {
-    //int power
-    //float angle
+    
+    protected double angle;
+    protected int power;
 
     public CannonA(Position position, IGameObjectsFactory gameObjectsFactory){
         this.position = position;
         this.gameObjectsFactory = gameObjectsFactory;
+        angle = MvcGameConfig.INIT_ANGLE;
+        power = MvcGameConfig.INIT_POWER;
+
     }
 
     public void moveUp(){
@@ -26,8 +30,25 @@ public class CannonA extends AbstractCannon {
     }
 
     public AbstractMissile shoot(){
-        return gameObjectsFactory.createMissile();
+       return gameObjectsFactory.createMissile(angle, power);
     }
+    @Override
+    public void aimUp() {
+        angle -= MvcGameConfig.ANGLE_STEP;
+    }
+    @Override
+    public void aimDown() {
+        angle += MvcGameConfig.ANGLE_STEP;
+    }
+    @Override
+    public void powerUp() {
+        power += MvcGameConfig.POWER_STEP;
+    }
+    @Override
+    public void powerDown() {
+        power -= MvcGameConfig.POWER_STEP;
+    }
+
 
     
 }

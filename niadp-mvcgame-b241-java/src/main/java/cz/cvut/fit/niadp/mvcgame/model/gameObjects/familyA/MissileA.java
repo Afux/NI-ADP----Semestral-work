@@ -5,9 +5,8 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 
 public class MissileA extends AbstractMissile { 
 
-    public MissileA(Position position){
-        this.position = position;
+    public MissileA(Position initPosition, double initAngle, int initVelocity) {
+        super(initPosition, initAngle, initVelocity);
+        position = initPosition;
     }
-
-    
 }

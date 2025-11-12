@@ -7,4 +7,10 @@ public class MvcGameKeys {
     public static final String RIGHT_KEY = "RIGHT";
     public static final String ESCAPE_KEY = "ESCAPE";
     public static final String SPACE_KEY = "SPACE";
+
+    public static final String AIM_UP_KEY = "A";
+    public static final String AIM_DOWN_KEY = "Y";
+    public static final String POWER_UP_KEY = "F";
+    public static final String POWER_DOWN_KEY = "D";
+
 }

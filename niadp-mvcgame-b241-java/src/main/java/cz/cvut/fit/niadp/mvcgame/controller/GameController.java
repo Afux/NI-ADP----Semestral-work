@@ -27,6 +27,18 @@ public class GameController {
                 case MvcGameKeys.ESCAPE_KEY:
                     System.exit(0);
                     break;
+                case MvcGameKeys.AIM_UP_KEY:
+                    model.aimCannonUp();
+                    break;
+                case MvcGameKeys.AIM_DOWN_KEY:
+                    model.aimCannonDown();
+                    break;
+                case MvcGameKeys.POWER_UP_KEY:
+                    model.cannonPowerUp();
+                    break;
+                case MvcGameKeys.POWER_DOWN_KEY:
+                    model.cannonPowerDown();
+                    break;
                 default: 
                     //nothing
             }
