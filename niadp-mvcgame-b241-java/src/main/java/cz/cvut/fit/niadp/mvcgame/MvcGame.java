@@ -4,21 +4,24 @@ import java.util.List;
 
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.controller.GameController;
+import cz.cvut.fit.niadp.mvcgame.memento.CareTaker;
 import cz.cvut.fit.niadp.mvcgame.model.GameModel;
+import cz.cvut.fit.niadp.mvcgame.proxy.GameModelProxy;
+import cz.cvut.fit.niadp.mvcgame.proxy.IGameModel;
 import cz.cvut.fit.niadp.mvcgame.view.GameView;
 // in the future, use Bridge to remove this dependency
 import javafx.scene.canvas.GraphicsContext;
 
 public class MvcGame {
-    private GameModel model;
+    private IGameModel model;
     private GameController controller;
     private GameView view;
 
-
     public void init() {
-        model = new GameModel();
+        model = new GameModelProxy(new GameModel());
         view = new GameView(model);
         controller = view.getController(); 
+        CareTaker.getInstance().setModel(model);
     }
 
     public void processPressedKeys(List<String> pressedKeysCodes) {
