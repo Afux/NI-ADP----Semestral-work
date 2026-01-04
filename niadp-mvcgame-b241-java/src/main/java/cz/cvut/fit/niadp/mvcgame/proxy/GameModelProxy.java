@@ -3,8 +3,10 @@ package cz.cvut.fit.niadp.mvcgame.proxy;
 import java.util.Set;
 
 import cz.cvut.fit.niadp.mvcgame.command.AbstractGameCommand;
+import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.GameModel;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.GameObject;
 import cz.cvut.fit.niadp.mvcgame.observer.IObserver;
@@ -47,7 +49,8 @@ public class GameModelProxy implements IGameModel{
 
     @Override
     public void moveCannonUp() {
-        subject.moveCannonUp();
+
+            subject.moveCannonUp();
     }
 
     @Override
@@ -62,22 +65,28 @@ public class GameModelProxy implements IGameModel{
 
     @Override
     public void aimCannonUp() {
-        subject.aimCannonUp();
+
+        if(Math.cos(subject.getCannonAngle()-MvcGameConfig.ANGLE_STEP)>=0) {
+            subject.aimCannonUp();
+        }
     }
 
     @Override
     public void aimCannonDown() {
-        subject.aimCannonDown();
+        if (Math.cos(subject.getCannonAngle()+MvcGameConfig.ANGLE_STEP)>=0)
+         subject.aimCannonDown();
     }
 
     @Override
     public void cannonPowerUp() {
-        subject.cannonPowerUp();
+        if((subject.getCannonPower() + MvcGameConfig.POWER_STEP ) <= MvcGameConfig.MAX_CANON_POWER)
+             subject.cannonPowerUp();
     }
 
     @Override
     public void cannonPowerDown() {
-        subject.cannonPowerDown();
+        if((subject.getCannonPower() - MvcGameConfig.POWER_STEP )>=0)
+            subject.cannonPowerDown();
     }
 
     @Override
@@ -116,6 +125,16 @@ public class GameModelProxy implements IGameModel{
     }
 
     @Override
+    public String getMovingStrategyName() {
+        return subject.getMovingStrategyName();
+    }
+
+    @Override
+    public GameObject getScene() {
+        return subject.getScene();
+    }
+
+    @Override
     public void toggleShootingMode() {
         subject.toggleShootingMode();
     }
@@ -138,5 +157,30 @@ public class GameModelProxy implements IGameModel{
     @Override
     public void undoLastCommand() {
         subject.undoLastCommand();
+    }
+
+    @Override
+    public int getScore() {
+        return subject.getScore();
+    }
+
+    @Override
+    public double getCannonAngle() {
+        return subject.getCannonAngle();
+    }
+
+    @Override
+    public int getCannonPower() {
+        return subject.getCannonPower();
+    }
+
+    @Override
+    public String getCannonShootingModeName() {
+        return subject.getCannonShootingModeName();
+    }
+
+    @Override
+    public Set<AbstractEnemy> getEnemies() {
+        return subject.getEnemies();
     }
 }

@@ -9,11 +9,20 @@ public class SimpleMovingStrategy implements IMovingStrategy{
 
     @Override
     public void updatePosition(AbstractMissile missile) {
-        missile.move(new Vector(MvcGameConfig.MOVE_STEP, 0));
+
+        double speed = missile.getInitVelocity();
+        double angle = missile.getInitAngle();
+        int dX = (int) (speed * Math.cos(angle));
+        int dY = (int) (speed * Math.sin(angle));
+        missile.move(new Vector(dX, dY));
     }
 
     @Override
     public IMovingStrategy getNextStrategy(GameModel model) {
         return model.getNextMovingStrategy(this);
+    }
+    @Override
+    public String getName() {
+        return "SimpleMovingStrategy";
     }
 }

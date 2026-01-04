@@ -25,6 +25,11 @@ public class RandomMovingStrategy implements IMovingStrategy {
     }
 
     @Override
+    public String getName() {
+        return "Random";
+    }
+
+    @Override
     public IMovingStrategy getNextStrategy(GameModel model) {
         return model.getNextMovingStrategy(this);
     }

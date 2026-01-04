@@ -2,8 +2,7 @@ package cz.cvut.fit.niadp.mvcgame.controller;
 
 import java.util.List;
 
-import cz.cvut.fit.niadp.mvcgame.command.MoveCannonDownCommand;
-import cz.cvut.fit.niadp.mvcgame.command.MoveCannonUpCommand;
+import cz.cvut.fit.niadp.mvcgame.command.*;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameKeys;
 import cz.cvut.fit.niadp.mvcgame.memento.CareTaker;
 import cz.cvut.fit.niadp.mvcgame.proxy.IGameModel;
@@ -31,22 +30,22 @@ public class GameController {
                     System.exit(0);
                     break;
                 case MvcGameKeys.AIM_UP_KEY:
-                    model.aimCannonUp();
+                    model.registerCommand(new AimCannonUpCommand(model));
                     break;
                 case MvcGameKeys.AIM_DOWN_KEY:
-                    model.aimCannonDown();
+                    model.registerCommand(new AimCannonDownCommand(model));
                     break;
                 case MvcGameKeys.POWER_UP_KEY:
-                    model.cannonPowerUp();
+                    model.registerCommand(new CannonPowerUpCommand(model));
                     break;
                 case MvcGameKeys.POWER_DOWN_KEY:
-                    model.cannonPowerDown();
+                    model.registerCommand(new CannonPowerDownCommand(model));
                     break;
                 case MvcGameKeys.TOGGLE_MOVING_STRATEGY_KEY:
-                    model.toggleMovingStrategy();
+                    model.registerCommand(new ToggleMovingStrategyCommand(model));
                     break;
                 case MvcGameKeys.TOGGLE_SHOOTING_MODE_KEY:
-                    model.toggleShootingMode();
+                    model.registerCommand(new ToggleShootingModeCommand(model));
                     break;
                 case MvcGameKeys.STORE_GAME_SNAPSHOT_KEY:
                     CareTaker.getInstance().createMemento();

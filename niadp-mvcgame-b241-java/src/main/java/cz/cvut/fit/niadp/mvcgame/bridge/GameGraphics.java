@@ -1,5 +1,6 @@
 package cz.cvut.fit.niadp.mvcgame.bridge;
 
+import cz.cvut.fit.niadp.mvcgame.model.ObjectSize;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
 
 public class GameGraphics implements IGameGraphics {
@@ -28,6 +29,11 @@ public class GameGraphics implements IGameGraphics {
         implementor.drawLine(rightTop, rightBottom);
         implementor.drawLine(rightBottom, leftBottom);
         implementor.drawLine(leftBottom, leftTop);
+    }
+
+    @Override
+    public void drawBackground(String path, Position position, ObjectSize size) {
+        implementor.drawImage(path, position,size);
     }
 
     @Override

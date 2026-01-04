@@ -15,7 +15,10 @@ public class RealMovingStrategy implements IMovingStrategy {
             0.5 * MvcGameConfig.GRAVITY * Math.pow(time, 2));
         missile.move(new Vector(dX, dY));
     }
-    
+    @Override
+    public String getName() {
+        return "Real";
+    }
     @Override
     public IMovingStrategy getNextStrategy(GameModel model) {
         return model.getNextMovingStrategy(this);

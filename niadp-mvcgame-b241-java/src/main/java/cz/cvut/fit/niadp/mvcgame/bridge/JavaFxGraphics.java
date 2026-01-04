@@ -1,21 +1,40 @@
 package cz.cvut.fit.niadp.mvcgame.bridge;
 
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
+import cz.cvut.fit.niadp.mvcgame.model.ObjectSize;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
+import javafx.css.Size;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import java.util.*;
 
 public class JavaFxGraphics  implements IGameGraphicsImplementor {
     
     private final GraphicsContext graphicsContext;
-
+    private final Map<String, Image> imageCache = new HashMap<>();
     public JavaFxGraphics(GraphicsContext graphicsContext) {
         this.graphicsContext = graphicsContext;
     }
 
     @Override
+    public void drawImage(String path, Position position, ObjectSize size) {
+        Image image = imageCache.get(path);
+        if (image == null) {
+            image = new Image(path);
+            imageCache.put(path, image);
+        }
+        graphicsContext.drawImage(image, position.getX(), position.getY(),size.getWidth(),size.getHeight());
+    }
+
+    @Override
     public void drawImage(String path, Position position) {
-        graphicsContext.drawImage(new Image(path), position.getX(), position.getY());
+        Image image = imageCache.get(path);
+        if (image == null) {
+            image = new Image(path);
+            imageCache.put(path, image);
+        }
+        graphicsContext.drawImage(image, position.getX(), position.getY());
     }
 
     @Override

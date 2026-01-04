@@ -12,6 +12,11 @@ public class Position {
 		this.dimY = posY;
 	}
 
+    public Position(Position pos) {
+        this.dimX = pos.dimX;
+        this.dimY = pos.dimY;
+    }
+
 	public int getX() {
 		return dimX;
 	}

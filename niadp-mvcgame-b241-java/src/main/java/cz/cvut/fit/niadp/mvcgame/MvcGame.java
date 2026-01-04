@@ -26,6 +26,12 @@ public class MvcGame {
     public void processPressedKeys(List<String> pressedKeysCodes) {
         controller.processPressedKeys(pressedKeysCodes);
     }
+    public void render() {
+        view.render();
+    }
+    public void update() {
+        view.update();
+    }
 
     public String getWindowTitle() {
         return "The NI-ADP MvcGame";

@@ -1,12 +1,18 @@
 package cz.cvut.fit.niadp.mvcgame.model.gameObjects;
 
+import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
+import cz.cvut.fit.niadp.mvcgame.model.ObjectSize;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
 import cz.cvut.fit.niadp.mvcgame.model.Vector;
 import cz.cvut.fit.niadp.mvcgame.visitor.IVisitable;
 
 public abstract class GameObject implements IVisitable {
     protected Position position;
-    
+    protected ObjectSize size;
+
+    GameObject() {
+        this.size = MvcGameConfig.MEDIUM_GAME_OBJECT_SIZE;
+    }
     public void move(Vector vector){
         position.add(vector);
     }
@@ -14,5 +20,6 @@ public abstract class GameObject implements IVisitable {
     public Position getPosition(){
         return position;
     }
+    public ObjectSize getSize(){return size;}
 
 }

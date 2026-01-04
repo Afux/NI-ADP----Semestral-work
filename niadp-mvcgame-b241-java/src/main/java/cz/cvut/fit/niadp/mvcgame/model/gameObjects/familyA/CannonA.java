@@ -14,17 +14,29 @@ import cz.cvut.fit.niadp.mvcgame.state.SingleShootingMode;
 
 public class CannonA extends AbstractCannon {
     
-    protected double angle;
-    protected int power;
+
     protected final List<AbstractMissile> shootingBatch;
 
     public CannonA(Position position, IGameObjectsFactory gameObjectsFactory){
+
         this.position = position;
         this.gameObjectsFactory = gameObjectsFactory;
         angle = MvcGameConfig.INIT_ANGLE;
         power = MvcGameConfig.INIT_POWER;
         this.shootingMode = new SingleShootingMode();
         shootingBatch = new ArrayList<AbstractMissile>();
+    }
+
+
+    public CannonA(AbstractCannon cannon){
+
+        this.position = new Position(cannon.getPosition());
+        this.gameObjectsFactory = cannon.getGameObjectsFactory();
+        angle = cannon.getAngle();
+        power = cannon.getPower();
+        this.shootingMode = cannon.getShootingMode();
+        shootingBatch = new ArrayList<AbstractMissile>();
+
     }
 
     public void moveUp(){
