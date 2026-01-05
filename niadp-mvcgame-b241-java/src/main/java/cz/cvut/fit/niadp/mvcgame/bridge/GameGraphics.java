@@ -32,7 +32,7 @@ public class GameGraphics implements IGameGraphics {
     }
 
     @Override
-    public void drawBackground(String path, Position position, ObjectSize size) {
+    public void drawImage(String path, Position position, ObjectSize size) {
         implementor.drawImage(path, position,size);
     }
 

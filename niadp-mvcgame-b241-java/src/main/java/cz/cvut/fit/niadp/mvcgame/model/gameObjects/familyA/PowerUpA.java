@@ -1,56 +1,51 @@
 package cz.cvut.fit.niadp.mvcgame.model.gameObjects.familyA;
-
-import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
+import cz.cvut.fit.niadp.mvcgame.decorator.SpeedyMissilePowerUp;
 import cz.cvut.fit.niadp.mvcgame.model.GameModel;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractCannon;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
+import cz.cvut.fit.niadp.mvcgame.state.IPowerUpType;
 import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
 
-public class EnemyA extends AbstractEnemy {
-    public EnemyA(Position pos) {
-        this.position = pos;
-        this.healthPoints = MvcGameConfig.MAX_HEALTH_POINTS;
-    }
-    public EnemyA(AbstractEnemy enemy) {
-        this.position = new Position(enemy.getPosition());
-        this.healthPoints = enemy.getHealthPoints();
+public class PowerUpA extends AbstractPowerUp {
+
+
+    public PowerUpA(Position pos, IPowerUpType type) {
+        super(pos, type);
     }
 
-    @Override
-    public void hitEnemy(int damage) {
-        healthPoints-=damage;
+    public PowerUpA(AbstractPowerUp powerUp) {
+        super(new Position(powerUp.getPosition().getX(),powerUp.getPosition().getY()), powerUp.getType());
     }
 
     @Override
     public void onCollision(Collideable other, GameModel model) {
-        other.collideWithEnemy(this, model);
+        other.collideWithPowerUp(this,model);
+
     }
 
     @Override
     public void collideWithCanon(AbstractCannon Canon, GameModel model) {
-
+        setLifeStatus(false);
     }
 
     @Override
     public void collideWithEnemy(AbstractEnemy enemy, GameModel model) {
+        setLifeStatus(false);
+
+    }
+
+    @Override
+    public void collideWithMissile(AbstractMissile missile, GameModel model) {
+        setLifeStatus(false);
 
     }
 
     @Override
     public void collideWithPowerUp(AbstractPowerUp powerUp, GameModel model) {
 
+
     }
-
-    @Override
-    public void collideWithMissile(AbstractMissile missile, GameModel model) {
-        hitEnemy(missile.getDamage());
-        if(getHealthPoints()<=0){
-            setLifeStatus(false);
-        }
-    }
-
-
 }

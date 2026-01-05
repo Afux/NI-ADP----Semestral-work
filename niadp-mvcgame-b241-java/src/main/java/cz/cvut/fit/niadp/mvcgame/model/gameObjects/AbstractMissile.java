@@ -19,6 +19,13 @@ public abstract class AbstractMissile extends LifetimeLimitedGameObject {
         this.movingStrategy = movingStrategy;
         this.damage = MvcGameConfig.INIT_DAMAGE;
     }
+    protected AbstractMissile(AbstractMissile missile) {
+        super(new Position(missile.getPosition().getX(), missile.getPosition().getY()));
+        this.initAngle = missile.initAngle;
+        this.initVelocity = missile.initVelocity;
+        this.movingStrategy = missile.movingStrategy;
+        this.damage = missile.damage;
+    }
     @Override
     public void accept(IVisitor visitor){
         visitor.visit(this);

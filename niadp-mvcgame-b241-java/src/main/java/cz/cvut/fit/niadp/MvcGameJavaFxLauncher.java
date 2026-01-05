@@ -57,8 +57,6 @@ public class MvcGameJavaFxLauncher extends Application {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 theMvcGame.processPressedKeys(pressedKeysCodes);
-              //  theMvcGame.update();
-           //     theMvcGame.render();
             }
         }.start();
         stage.show();

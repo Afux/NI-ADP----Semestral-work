@@ -2,9 +2,10 @@ package cz.cvut.fit.niadp.mvcgame.model.gameObjects.familyA;
 
 import cz.cvut.fit.niadp.mvcgame.model.GameModel;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractGameInfo;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
 import cz.cvut.fit.niadp.mvcgame.proxy.IGameModel;
 import cz.cvut.fit.niadp.mvcgame.visitor.IVisitor;
+import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
 
 public class GameInfoA extends AbstractGameInfo {
 
@@ -31,8 +32,34 @@ public class GameInfoA extends AbstractGameInfo {
          gameData.put("Mode",model.getCannonShootingModeName());
          gameData.put("Enemies Left",model.getEnemies().size());
          gameData.put("Strategy",model.getMovingStrategyName());
+         gameData.put("PowerUpsCount",model.getPowerUps().size());
+
 
     }
 
 
+    @Override
+    public void onCollision(Collideable other, GameModel model) {
+
+    }
+
+    @Override
+    public void collideWithCanon(AbstractCannon Canon, GameModel model) {
+
+    }
+
+    @Override
+    public void collideWithEnemy(AbstractEnemy enemy, GameModel model) {
+
+    }
+
+    @Override
+    public void collideWithMissile(AbstractMissile missile, GameModel model) {
+
+    }
+
+    @Override
+    public void collideWithPowerUp(AbstractPowerUp powerUp, GameModel model) {
+
+    }
 }

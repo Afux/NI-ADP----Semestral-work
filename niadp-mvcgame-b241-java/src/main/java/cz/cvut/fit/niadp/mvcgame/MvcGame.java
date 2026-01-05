@@ -3,6 +3,9 @@ package cz.cvut.fit.niadp.mvcgame;
 import java.util.List;
 
 import cz.cvut.fit.niadp.mvcgame.bridge.IGameGraphics;
+import cz.cvut.fit.niadp.mvcgame.builder.Director;
+import cz.cvut.fit.niadp.mvcgame.builder.GameModelLevelBuilder;
+import cz.cvut.fit.niadp.mvcgame.builder.ILevelBuilder;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.controller.GameController;
 import cz.cvut.fit.niadp.mvcgame.memento.CareTaker;
@@ -16,8 +19,11 @@ public class MvcGame {
     private GameController controller;
     private GameView view;
 
+    private GameModelLevelBuilder builder = new GameModelLevelBuilder();
+    private final Director director =  new Director(builder);
     public void init() {
-        model = new GameModelProxy(new GameModel());
+        director.CreateMediumLevel();
+        model = new GameModelProxy(builder.getResult());
         view = new GameView(model);
         controller = view.getController(); 
         CareTaker.getInstance().setModel(model);
@@ -26,12 +32,7 @@ public class MvcGame {
     public void processPressedKeys(List<String> pressedKeysCodes) {
         controller.processPressedKeys(pressedKeysCodes);
     }
-    public void render() {
-        view.render();
-    }
-    public void update() {
-        view.update();
-    }
+
 
     public String getWindowTitle() {
         return "The NI-ADP MvcGame";

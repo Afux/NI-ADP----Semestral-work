@@ -2,16 +2,10 @@ package cz.cvut.fit.niadp.mvcgame.abstractFactory;
 
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractCannon;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractCollision;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractGameInfo;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.familyA.*;
 import cz.cvut.fit.niadp.mvcgame.proxy.IGameModel;
-
-import javax.xml.crypto.dsig.CanonicalizationMethod;
-import java.util.HashSet;
-import java.util.Set;
+import cz.cvut.fit.niadp.mvcgame.state.IPowerUpType;
 
 public class GameObjectsFactoryA implements IGameObjectsFactory{
 
@@ -42,6 +36,11 @@ public class GameObjectsFactoryA implements IGameObjectsFactory{
     }
 
     @Override
+    public MissileA createMissile(AbstractMissile missile) {
+        return new MissileA(missile);
+    }
+
+    @Override
     public EnemyA createEnemy(Position pos) {
         return new EnemyA(pos);
     }
@@ -56,6 +55,11 @@ public class GameObjectsFactoryA implements IGameObjectsFactory{
     }
 
     @Override
+    public AbstractPowerUp createPowerUp(AbstractPowerUp powerUp) {
+        return new PowerUpA(powerUp);
+    }
+
+    @Override
     public AbstractCannon createCannon(AbstractCannon cannon) {
         return new CannonA(cannon);
     }
@@ -66,12 +70,8 @@ public class GameObjectsFactoryA implements IGameObjectsFactory{
     }
 
     @Override
-    public Set<AbstractEnemy> createEnemies() {
-        Set<AbstractEnemy> enemies = new HashSet<>();
-        for (Position p : MvcGameConfig.ENEMY_POSITIONS) {
-            enemies.add(createEnemy(p));
-        }
-
-        return enemies;
+    public AbstractPowerUp createPowerUp(Position pos, IPowerUpType type) {
+        return  new PowerUpA(pos,type);
     }
+
 }

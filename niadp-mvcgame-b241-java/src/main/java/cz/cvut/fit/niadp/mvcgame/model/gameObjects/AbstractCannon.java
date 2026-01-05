@@ -25,7 +25,7 @@ public abstract class AbstractCannon extends GameObject {
     public abstract void toggleShootingMode();
     public abstract List<AbstractMissile> shoot();
     public abstract void primitiveShoot();
-
+    @Override
     public void accept(IVisitor visitor){
         visitor.visit(this);
     }
@@ -47,4 +47,5 @@ public abstract class AbstractCannon extends GameObject {
     public int getPower() {
         return power;
     }
+
 }

@@ -9,4 +9,5 @@ public interface IVisitor {
     public void visit(AbstractScene abstractScene);
     public void visit(AbstractCollision abstractCollision);
     public void visit(AbstractGameInfo gameInfo);
+    void visit(AbstractPowerUp abstractPowerUp);
 }

@@ -5,12 +5,16 @@ import java.util.List;
 
 import cz.cvut.fit.niadp.mvcgame.abstractFactory.IGameObjectsFactory;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
+import cz.cvut.fit.niadp.mvcgame.model.GameModel;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
 import cz.cvut.fit.niadp.mvcgame.model.Vector;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractCannon;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
 import cz.cvut.fit.niadp.mvcgame.state.DoubleShootingMode;
 import cz.cvut.fit.niadp.mvcgame.state.SingleShootingMode;
+import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
 
 public class CannonA extends AbstractCannon {
     
@@ -84,5 +88,29 @@ public class CannonA extends AbstractCannon {
 
         }
     }
-    
+
+    @Override
+    public void onCollision(Collideable other, GameModel model) {
+
+    }
+
+    @Override
+    public void collideWithCanon(AbstractCannon Canon, GameModel model) {
+
+    }
+
+    @Override
+    public void collideWithEnemy(AbstractEnemy enemy, GameModel model) {
+
+    }
+
+    @Override
+    public void collideWithMissile(AbstractMissile missile, GameModel model) {
+
+    }
+
+    @Override
+    public void collideWithPowerUp(AbstractPowerUp powerUp, GameModel model) {
+
+    }
 }

@@ -7,6 +7,7 @@ import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
 import cz.cvut.fit.niadp.mvcgame.observer.IObserver;
 import cz.cvut.fit.niadp.mvcgame.proxy.IGameModel;
+import cz.cvut.fit.niadp.mvcgame.state.IPowerUpType;
 import cz.cvut.fit.niadp.mvcgame.strategy.IMovingStrategy;
 import cz.cvut.fit.niadp.mvcgame.strategy.RandomMovingStrategy;
 import cz.cvut.fit.niadp.mvcgame.strategy.RealMovingStrategy;
@@ -24,31 +25,36 @@ public class GameModel implements IGameModel {
     private final Set<AbstractMissile> missiles;
     private final Set<AbstractCollision> collisions;
     private final Set<IObserver> observers;
-    private final Set<AbstractEnemy> enemies;
-    private final AbstractScene scene;
-    private final IGameObjectsFactory factory;
-    private final AbstractGameInfo gameInfo;
+    private  Set<AbstractEnemy> enemies;
+    private  AbstractScene scene;
+    private  IGameObjectsFactory factory;
+    private  AbstractGameInfo gameInfo;
     protected IMovingStrategy movingStrategy;
     private AbstractCannon cannon;
+    private Set<AbstractPowerUp> powerUps;
+    private Set<AbstractMissile> poweredUpedMissilies;
     private int score;
 
     public GameModel() {
         factory = new GameObjectsFactoryA(this);
         observers = new HashSet<IObserver>();
-        cannon = factory.createCannon();
         missiles = new HashSet<AbstractMissile>();
         movingStrategy = new RealMovingStrategy();
         unexecutedCommands = new LinkedBlockingQueue<>();
         executedCommands = new Stack<>();
-        scene = factory.createScene();
-        enemies = factory.createEnemies();
         collisions = new HashSet<AbstractCollision>();
+        enemies =  new HashSet<>();
+        powerUps = new HashSet<>();
+        poweredUpedMissilies = new HashSet<>();
+        cannon = factory.createCannon();
+        scene = factory.createScene();
         gameInfo = factory.createGameInfo();
         score = 0;
 
     }
 
     public void update() {
+       // updateScore();
         removeKilledEnemies();
         moveMissiles();
         executeCommands();
@@ -68,29 +74,37 @@ public class GameModel implements IGameModel {
     }
 
     protected void destroyMissiles() {
-        missiles.removeAll(missiles.stream().filter(missile -> missile.getPosition().getX() > MvcGameConfig.MAX_X || missile.getPosition().getX() < MvcGameConfig.MIN_X || missile.getPosition().getY() > MvcGameConfig.MAX_Y || missile.getPosition().getY() < MvcGameConfig.MIN_Y).toList());
+        missiles.removeIf( missile -> isOutOfBounds(missile.getPosition()));
     }
-
+    private boolean isOutOfBounds(Position pos) {
+        return pos.getX() > MvcGameConfig.MAX_X ||
+                pos.getX() < MvcGameConfig.MIN_X ||
+                pos.getY() > MvcGameConfig.MAX_Y ||
+                pos.getY() < MvcGameConfig.MIN_Y;
+    }
     protected void checkForCollisions() {
-        Set<AbstractMissile> missilesToRemove = new HashSet<>();
-        Set<AbstractEnemy> enemiesToRemove = new HashSet<>();
-        missiles.forEach(missile -> {
-            enemies.forEach(enemy -> {
-                if (isCollision(missile, enemy)) {
-                    enemy.hitEnemy(missile.getDamage());
-                    missilesToRemove.add(missile);
-                    if (enemy.getHealthPoints() < 0) {
-                        collisions.add(factory.createCollision(enemy.getPosition()));
-                        enemiesToRemove.add(enemy);
-                        score++;
-                    }
+       // Set<GameObject> gameObjects=getGameObjects();
+        missiles.forEach(a -> {
+            enemies.forEach(b -> {
+                if(isCollision(a,b)){
+                    a.onCollision(b,this);
+                    b.onCollision(a,this);
+                }
+            });
+            powerUps.forEach(b -> {
+                if(isCollision(a,b)){
+                    a.onCollision(b,this);
+                    b.onCollision(a,this);
                 }
             });
         });
-
-        missiles.removeAll(missilesToRemove);
-        enemies.removeAll(enemiesToRemove);
+        missiles.addAll(poweredUpedMissilies);
+        poweredUpedMissilies.clear();
         notifyObservers();
+    }
+
+    public Set<AbstractMissile> getPoweredUppedMissiles() {
+        return poweredUpedMissilies;
     }
 
     public Position getCannonPosition() {
@@ -100,6 +114,14 @@ public class GameModel implements IGameModel {
     public void moveCannonUp() {
         cannon.moveUp();
         notifyObservers();
+    }
+
+    public IGameObjectsFactory getFactory() {
+        return factory;
+    }
+
+    public Set<AbstractCollision> getCollisions() {
+        return collisions;
     }
 
     public void moveCannonDown() {
@@ -151,13 +173,20 @@ public class GameModel implements IGameModel {
         gameObjects.add(cannon);
         gameObjects.addAll(enemies);
         gameObjects.addAll(collisions);
+        gameObjects.addAll(powerUps);
         return gameObjects;
     }
-
+    public void updateScore(int value) {
+        score +=value;
+    }
     public void removeKilledEnemies() {
-        collisions.forEach(collision -> {
-            if (collision.getAge() > 25) collisions.remove(collision);
-        });
+        missiles.removeIf(missile -> !missile.getLifeStatus());
+        int deathsBefore = enemies.size();
+        enemies.removeIf(enemy -> !enemy.getLifeStatus());
+        int deathsAfter = enemies.size();
+        updateScore(deathsBefore - deathsAfter);
+        powerUps.removeIf(powerUp -> !powerUp.getLifeStatus());
+      //  collisions.removeIf(c -> c.getAge() > 50);
     }
 
     public IMovingStrategy getMovingStrategy() {
@@ -232,8 +261,13 @@ public class GameModel implements IGameModel {
         gameModelSnapshot.movingStrategy = this.movingStrategy;
         gameModelSnapshot.score = this.score;
         gameModelSnapshot.enemies = new HashSet<>();
+        gameModelSnapshot.powerUps = new HashSet<>();
+
         for (AbstractEnemy e : enemies) {
             gameModelSnapshot.enemies.add(factory.createEnemy(e));
+        }
+        for (AbstractPowerUp p : powerUps) {
+            gameModelSnapshot.powerUps.add(factory.createPowerUp(p));
         }
         return gameModelSnapshot;
     }
@@ -245,6 +279,8 @@ public class GameModel implements IGameModel {
         cannon = factory.createCannon(gameModelSnapshot.cannon);
         enemies.clear();
         enemies.addAll(gameModelSnapshot.enemies);
+        powerUps.clear();
+        powerUps.addAll(gameModelSnapshot.powerUps);
         missiles.clear();
 
     }
@@ -265,8 +301,39 @@ public class GameModel implements IGameModel {
     private static class Memento {
         private AbstractCannon cannon;
         private Set<AbstractEnemy> enemies;
+        private Set<AbstractPowerUp> powerUps;
         private IMovingStrategy movingStrategy;
         private int score;
+
         // game snapshot
+    }
+
+    public void addEnemy(Position pos) {
+        this.enemies.add(factory.createEnemy(pos));
+    }
+
+    public void addPowerUp(Position pos, IPowerUpType type) {
+        this.powerUps.add(factory.createPowerUp(pos,type));
+    }
+
+    @Override
+    public Set<AbstractPowerUp> getPowerUps() {
+        return powerUps;
+    }
+
+    public void setScene(AbstractScene scene) {
+        this.scene = scene;
+    }
+
+    public void setFactory(IGameObjectsFactory factory) {
+        this.factory = factory;
+    }
+
+    public void setGameInfo(AbstractGameInfo gameInfo) {
+        this.gameInfo = gameInfo;
+    }
+
+    public void setCannon(AbstractCannon cannon) {
+        this.cannon = cannon;
     }
 }

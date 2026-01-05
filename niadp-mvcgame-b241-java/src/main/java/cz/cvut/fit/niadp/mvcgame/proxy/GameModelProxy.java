@@ -6,9 +6,7 @@ import cz.cvut.fit.niadp.mvcgame.command.AbstractGameCommand;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.GameModel;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.GameObject;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
 import cz.cvut.fit.niadp.mvcgame.observer.IObserver;
 import cz.cvut.fit.niadp.mvcgame.strategy.IMovingStrategy;
 import cz.cvut.fit.niadp.mvcgame.strategy.RandomMovingStrategy;
@@ -49,13 +47,19 @@ public class GameModelProxy implements IGameModel{
 
     @Override
     public void moveCannonUp() {
-
+        if((subject.getCannonPosition().getY())<=MvcGameConfig.MAX_Y+MvcGameConfig.MOVE_STEP){
             subject.moveCannonUp();
+
+        }
     }
 
     @Override
     public void moveCannonDown() {
-        subject.moveCannonDown();
+        if((subject.getCannonPosition().getY())>=(-MvcGameConfig.MOVE_STEP)){
+            subject.moveCannonDown();
+
+        }
+
     }
 
     @Override
@@ -130,7 +134,7 @@ public class GameModelProxy implements IGameModel{
     }
 
     @Override
-    public GameObject getScene() {
+    public AbstractScene getScene() {
         return subject.getScene();
     }
 
@@ -182,5 +186,10 @@ public class GameModelProxy implements IGameModel{
     @Override
     public Set<AbstractEnemy> getEnemies() {
         return subject.getEnemies();
+    }
+
+    @Override
+    public Set<AbstractPowerUp> getPowerUps() {
+        return subject.getPowerUps();
     }
 }

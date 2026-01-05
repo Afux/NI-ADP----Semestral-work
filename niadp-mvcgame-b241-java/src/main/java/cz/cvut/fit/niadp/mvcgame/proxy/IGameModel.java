@@ -1,14 +1,13 @@
 package cz.cvut.fit.niadp.mvcgame.proxy;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
 import cz.cvut.fit.niadp.mvcgame.command.AbstractGameCommand;
 import cz.cvut.fit.niadp.mvcgame.controller.GameController;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.GameObject;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
 import cz.cvut.fit.niadp.mvcgame.observer.IObservable;
 import cz.cvut.fit.niadp.mvcgame.strategy.IMovingStrategy;
 import cz.cvut.fit.niadp.mvcgame.strategy.RandomMovingStrategy;
@@ -37,7 +36,7 @@ public interface IGameModel extends IObservable {
     public void setMemento(Object memento);
     public void registerCommand(AbstractGameCommand command);
     public void undoLastCommand();
-    public GameObject getScene();
+    public AbstractScene getScene();
 
     public int getScore();
     public double getCannonAngle();
@@ -45,4 +44,6 @@ public interface IGameModel extends IObservable {
     public String getCannonShootingModeName();
     public Set<AbstractEnemy> getEnemies();
     public String getMovingStrategyName();
+
+    Set<AbstractPowerUp> getPowerUps();
 }
