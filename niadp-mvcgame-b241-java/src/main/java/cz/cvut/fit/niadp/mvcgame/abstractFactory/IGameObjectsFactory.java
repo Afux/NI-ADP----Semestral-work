@@ -2,24 +2,43 @@ package cz.cvut.fit.niadp.mvcgame.abstractFactory;
 
 import cz.cvut.fit.niadp.mvcgame.model.Position;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.familyA.GameInfoA;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.CannonState;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.EnemyState;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.PowerUpState;
 import cz.cvut.fit.niadp.mvcgame.state.IPowerUpType;
-import javafx.geometry.Pos;
-
-import java.util.Set;
 
 public interface IGameObjectsFactory {
-    public AbstractCannon createCannon();
-    public AbstractCannon createCannon(AbstractCannon cannon);
-    public AbstractMissile createMissile(double initAngle, int initVelocity);
-    public AbstractMissile createMissile(AbstractMissile missile);
+    AbstractCannon createCannon();
 
-    public AbstractEnemy createEnemy(Position pos);
-    public AbstractEnemy createEnemy(AbstractEnemy enemy);
-    public AbstractScene createScene();
-    public AbstractCollision createCollision(Position pos);
-    public AbstractGameInfo createGameInfo();
-    public AbstractPowerUp createPowerUp(Position pos, IPowerUpType type);
-    public AbstractPowerUp createPowerUp(AbstractPowerUp powerUp);
+    AbstractCannon createCannon(AbstractCannon cannon);
 
+    AbstractMissile createMissile(double initAngle, int initVelocity);
+
+    AbstractMissile createMissile(AbstractMissile missile);
+
+    AbstractEnemy createEnemy(Position pos);
+
+    AbstractEnemy createEnemy(AbstractEnemy enemy);
+
+    AbstractScene createScene();
+
+    AbstractCollision createCollision(Position pos);
+
+    AbstractGameInfo createGameInfo();
+
+    AbstractPowerUp createPowerUp(Position pos, IPowerUpType type);
+
+    AbstractPowerUp createPowerUp(AbstractPowerUp powerUp);
+
+    AbstractCannon createCannonFromState(CannonState cannon);
+
+    CannonState createCannonState(AbstractCannon cannon);
+
+    EnemyState createEnemyState(AbstractEnemy e);
+
+    AbstractEnemy createEnemyFromState(EnemyState s);
+
+    AbstractPowerUp createPowerUpFromState(PowerUpState p);
+
+    PowerUpState createPowerUpState(AbstractPowerUp p);
 }

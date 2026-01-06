@@ -5,6 +5,9 @@ import cz.cvut.fit.niadp.mvcgame.abstractFactory.IGameObjectsFactory;
 import cz.cvut.fit.niadp.mvcgame.command.AbstractGameCommand;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.CannonState;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.EnemyState;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.PowerUpState;
 import cz.cvut.fit.niadp.mvcgame.observer.IObserver;
 import cz.cvut.fit.niadp.mvcgame.proxy.IGameModel;
 import cz.cvut.fit.niadp.mvcgame.state.IPowerUpType;
@@ -13,6 +16,7 @@ import cz.cvut.fit.niadp.mvcgame.strategy.RandomMovingStrategy;
 import cz.cvut.fit.niadp.mvcgame.strategy.RealMovingStrategy;
 import cz.cvut.fit.niadp.mvcgame.strategy.SimpleMovingStrategy;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
@@ -25,14 +29,14 @@ public class GameModel implements IGameModel {
     private final Set<AbstractMissile> missiles;
     private final Set<AbstractCollision> collisions;
     private final Set<IObserver> observers;
-    private  Set<AbstractEnemy> enemies;
-    private  AbstractScene scene;
-    private  IGameObjectsFactory factory;
-    private  AbstractGameInfo gameInfo;
     protected IMovingStrategy movingStrategy;
+    private final Set<AbstractEnemy> enemies;
+    private AbstractScene scene;
+    private IGameObjectsFactory factory;
+    private AbstractGameInfo gameInfo;
     private AbstractCannon cannon;
-    private Set<AbstractPowerUp> powerUps;
-    private Set<AbstractMissile> poweredUpedMissilies;
+    private final Set<AbstractPowerUp> powerUps;
+    private final Set<AbstractMissile> poweredUpedMissilies;
     private int score;
 
     public GameModel() {
@@ -43,7 +47,7 @@ public class GameModel implements IGameModel {
         unexecutedCommands = new LinkedBlockingQueue<>();
         executedCommands = new Stack<>();
         collisions = new HashSet<AbstractCollision>();
-        enemies =  new HashSet<>();
+        enemies = new HashSet<>();
         powerUps = new HashSet<>();
         poweredUpedMissilies = new HashSet<>();
         cannon = factory.createCannon();
@@ -54,7 +58,7 @@ public class GameModel implements IGameModel {
     }
 
     public void update() {
-       // updateScore();
+        // updateScore();
         removeKilledEnemies();
         moveMissiles();
         executeCommands();
@@ -74,27 +78,26 @@ public class GameModel implements IGameModel {
     }
 
     protected void destroyMissiles() {
-        missiles.removeIf( missile -> isOutOfBounds(missile.getPosition()));
+        missiles.removeIf(missile -> isOutOfBounds(missile.getPosition()));
     }
+
     private boolean isOutOfBounds(Position pos) {
-        return pos.getX() > MvcGameConfig.MAX_X ||
-                pos.getX() < MvcGameConfig.MIN_X ||
-                pos.getY() > MvcGameConfig.MAX_Y ||
-                pos.getY() < MvcGameConfig.MIN_Y;
+        return pos.getX() > MvcGameConfig.MAX_X || pos.getX() < MvcGameConfig.MIN_X || pos.getY() > MvcGameConfig.MAX_Y || pos.getY() < MvcGameConfig.MIN_Y;
     }
+
     protected void checkForCollisions() {
-       // Set<GameObject> gameObjects=getGameObjects();
+        // Set<GameObject> gameObjects=getGameObjects();
         missiles.forEach(a -> {
             enemies.forEach(b -> {
-                if(isCollision(a,b)){
-                    a.onCollision(b,this);
-                    b.onCollision(a,this);
+                if (isCollision(a, b)) {
+                    a.onCollision(b, this);
+                    b.onCollision(a, this);
                 }
             });
             powerUps.forEach(b -> {
-                if(isCollision(a,b)){
-                    a.onCollision(b,this);
-                    b.onCollision(a,this);
+                if (isCollision(a, b)) {
+                    a.onCollision(b, this);
+                    b.onCollision(a, this);
                 }
             });
         });
@@ -118,6 +121,10 @@ public class GameModel implements IGameModel {
 
     public IGameObjectsFactory getFactory() {
         return factory;
+    }
+
+    public void setFactory(IGameObjectsFactory factory) {
+        this.factory = factory;
     }
 
     public Set<AbstractCollision> getCollisions() {
@@ -158,6 +165,10 @@ public class GameModel implements IGameModel {
         return scene;
     }
 
+    public void setScene(AbstractScene scene) {
+        this.scene = scene;
+    }
+
     public Set<AbstractMissile> getMissiles() {
         return missiles;
     }
@@ -176,9 +187,11 @@ public class GameModel implements IGameModel {
         gameObjects.addAll(powerUps);
         return gameObjects;
     }
+
     public void updateScore(int value) {
-        score +=value;
+        score += value;
     }
+
     public void removeKilledEnemies() {
         missiles.removeIf(missile -> !missile.getLifeStatus());
         int deathsBefore = enemies.size();
@@ -186,13 +199,11 @@ public class GameModel implements IGameModel {
         int deathsAfter = enemies.size();
         updateScore(deathsBefore - deathsAfter);
         powerUps.removeIf(powerUp -> !powerUp.getLifeStatus());
-      //  collisions.removeIf(c -> c.getAge() > 50);
     }
 
     public IMovingStrategy getMovingStrategy() {
         return movingStrategy;
     }
-
 
     public double getCannonAngle() {
         return cannon.getAngle();
@@ -235,9 +246,7 @@ public class GameModel implements IGameModel {
 
     public void toggleMovingStrategy() {
         movingStrategy = movingStrategy.getNextStrategy(this);
-
     }
-
 
     public IMovingStrategy getNextMovingStrategy(SimpleMovingStrategy strategy) {
         return new RandomMovingStrategy();
@@ -257,32 +266,37 @@ public class GameModel implements IGameModel {
 
     public Object createMemento() {
         Memento gameModelSnapshot = new Memento();
-        gameModelSnapshot.cannon = factory.createCannon(cannon);
-        gameModelSnapshot.movingStrategy = this.movingStrategy;
-        gameModelSnapshot.score = this.score;
+        gameModelSnapshot.cannon = factory.createCannonState(cannon);
         gameModelSnapshot.enemies = new HashSet<>();
-        gameModelSnapshot.powerUps = new HashSet<>();
-
         for (AbstractEnemy e : enemies) {
-            gameModelSnapshot.enemies.add(factory.createEnemy(e));
+            gameModelSnapshot.enemies.add(factory.createEnemyState(e));
         }
+
+        gameModelSnapshot.movingStrategy = this.movingStrategy.getName();
+        gameModelSnapshot.score = this.score;
+        gameModelSnapshot.powerUps = new HashSet<>();
         for (AbstractPowerUp p : powerUps) {
-            gameModelSnapshot.powerUps.add(factory.createPowerUp(p));
+            gameModelSnapshot.powerUps.add(factory.createPowerUpState(p));
         }
+
         return gameModelSnapshot;
     }
 
     public void setMemento(Object memento) {
         Memento gameModelSnapshot = (Memento) memento;
-        this.movingStrategy = gameModelSnapshot.movingStrategy;
-        this.score = gameModelSnapshot.score;
-        cannon = factory.createCannon(gameModelSnapshot.cannon);
+        cannon = factory.createCannonFromState(gameModelSnapshot.cannon);
         enemies.clear();
-        enemies.addAll(gameModelSnapshot.enemies);
-        powerUps.clear();
-        powerUps.addAll(gameModelSnapshot.powerUps);
-        missiles.clear();
+        for (EnemyState s : gameModelSnapshot.enemies) {
+            enemies.add(factory.createEnemyFromState(s));
+        }
+        movingStrategy = IMovingStrategy.getStrategy(gameModelSnapshot.movingStrategy);
+        score = gameModelSnapshot.score;
 
+        powerUps.clear();
+        for (PowerUpState p : gameModelSnapshot.powerUps) {
+            powerUps.add(factory.createPowerUpFromState(p));
+        }
+        missiles.clear();
     }
 
     @Override
@@ -298,35 +312,17 @@ public class GameModel implements IGameModel {
         }
     }
 
-    private static class Memento {
-        private AbstractCannon cannon;
-        private Set<AbstractEnemy> enemies;
-        private Set<AbstractPowerUp> powerUps;
-        private IMovingStrategy movingStrategy;
-        private int score;
-
-        // game snapshot
-    }
-
     public void addEnemy(Position pos) {
         this.enemies.add(factory.createEnemy(pos));
     }
 
     public void addPowerUp(Position pos, IPowerUpType type) {
-        this.powerUps.add(factory.createPowerUp(pos,type));
+        this.powerUps.add(factory.createPowerUp(pos, type));
     }
 
     @Override
     public Set<AbstractPowerUp> getPowerUps() {
         return powerUps;
-    }
-
-    public void setScene(AbstractScene scene) {
-        this.scene = scene;
-    }
-
-    public void setFactory(IGameObjectsFactory factory) {
-        this.factory = factory;
     }
 
     public void setGameInfo(AbstractGameInfo gameInfo) {
@@ -335,5 +331,17 @@ public class GameModel implements IGameModel {
 
     public void setCannon(AbstractCannon cannon) {
         this.cannon = cannon;
+    }
+
+    private static class Memento implements Serializable {
+        private CannonState cannon;
+
+        private Set<EnemyState> enemies;
+
+        private Set<PowerUpState> powerUps;
+        private String movingStrategy;
+        private int score;
+        /*   */
+        // game snapshot
     }
 }

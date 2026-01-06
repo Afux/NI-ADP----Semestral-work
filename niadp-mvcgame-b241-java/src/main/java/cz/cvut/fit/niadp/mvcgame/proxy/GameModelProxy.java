@@ -1,7 +1,5 @@
 package cz.cvut.fit.niadp.mvcgame.proxy;
 
-import java.util.Set;
-
 import cz.cvut.fit.niadp.mvcgame.command.AbstractGameCommand;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.GameModel;
@@ -13,10 +11,12 @@ import cz.cvut.fit.niadp.mvcgame.strategy.RandomMovingStrategy;
 import cz.cvut.fit.niadp.mvcgame.strategy.RealMovingStrategy;
 import cz.cvut.fit.niadp.mvcgame.strategy.SimpleMovingStrategy;
 
-public class GameModelProxy implements IGameModel{
+import java.util.Set;
+
+public class GameModelProxy implements IGameModel {
     private final GameModel subject;
 
-    public GameModelProxy(GameModel subject){
+    public GameModelProxy(GameModel subject) {
         this.subject = subject;
     }
 
@@ -43,11 +43,11 @@ public class GameModelProxy implements IGameModel{
     @Override
     public Position getCannonPosition() {
         return subject.getCannonPosition();
-     }
+    }
 
     @Override
     public void moveCannonUp() {
-        if((subject.getCannonPosition().getY())<=MvcGameConfig.MAX_Y+MvcGameConfig.MOVE_STEP){
+        if ((subject.getCannonPosition().getY()) <= MvcGameConfig.MAX_Y + MvcGameConfig.MOVE_STEP) {
             subject.moveCannonUp();
 
         }
@@ -55,7 +55,7 @@ public class GameModelProxy implements IGameModel{
 
     @Override
     public void moveCannonDown() {
-        if((subject.getCannonPosition().getY())>=(-MvcGameConfig.MOVE_STEP)){
+        if ((subject.getCannonPosition().getY()) >= (-MvcGameConfig.MOVE_STEP)) {
             subject.moveCannonDown();
 
         }
@@ -70,26 +70,26 @@ public class GameModelProxy implements IGameModel{
     @Override
     public void aimCannonUp() {
 
-        if(Math.cos(subject.getCannonAngle()-MvcGameConfig.ANGLE_STEP)>=0) {
+        if (Math.cos(subject.getCannonAngle() - MvcGameConfig.ANGLE_STEP) >= 0) {
             subject.aimCannonUp();
         }
     }
 
     @Override
     public void aimCannonDown() {
-        if (Math.cos(subject.getCannonAngle()+MvcGameConfig.ANGLE_STEP)>=0)
-         subject.aimCannonDown();
+        if (Math.cos(subject.getCannonAngle() + MvcGameConfig.ANGLE_STEP) >= 0)
+            subject.aimCannonDown();
     }
 
     @Override
     public void cannonPowerUp() {
-        if((subject.getCannonPower() + MvcGameConfig.POWER_STEP ) <= MvcGameConfig.MAX_CANON_POWER)
-             subject.cannonPowerUp();
+        if ((subject.getCannonPower() + MvcGameConfig.POWER_STEP) <= MvcGameConfig.MAX_CANON_POWER)
+            subject.cannonPowerUp();
     }
 
     @Override
     public void cannonPowerDown() {
-        if((subject.getCannonPower() - MvcGameConfig.POWER_STEP )>=0)
+        if ((subject.getCannonPower() - MvcGameConfig.POWER_STEP) >= 0)
             subject.cannonPowerDown();
     }
 
@@ -145,12 +145,12 @@ public class GameModelProxy implements IGameModel{
 
     @Override
     public Object createMemento() {
-       return subject.createMemento();
+        return subject.createMemento();
     }
 
     @Override
     public void setMemento(Object memento) {
-       subject.setMemento(memento);
+        subject.setMemento(memento);
     }
 
     @Override

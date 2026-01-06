@@ -11,14 +11,16 @@ public class RealMovingStrategy implements IMovingStrategy {
     public void updatePosition(AbstractMissile missile) {
         long time = missile.getAge() / MvcGameConfig.MAGIC_TIME_CONST;
         int dX = (int) (missile.getInitVelocity() * time * Math.cos(missile.getInitAngle()));
-        int dY = (int) (missile.getInitVelocity() * time * Math.sin(missile.getInitAngle()) + 
-            0.5 * MvcGameConfig.GRAVITY * Math.pow(time, 2));
+        int dY = (int) (missile.getInitVelocity() * time * Math.sin(missile.getInitAngle()) +
+                0.5 * MvcGameConfig.GRAVITY * Math.pow(time, 2));
         missile.move(new Vector(dX, dY));
     }
+
     @Override
     public String getName() {
         return "Real";
     }
+
     @Override
     public IMovingStrategy getNextStrategy(GameModel model) {
         return model.getNextMovingStrategy(this);

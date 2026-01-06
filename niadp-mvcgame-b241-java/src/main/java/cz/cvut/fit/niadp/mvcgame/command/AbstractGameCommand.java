@@ -8,13 +8,13 @@ public abstract class AbstractGameCommand {
 
     protected abstract void execute();
 
-    public AbstractGameCommand doExecute(){
+    public AbstractGameCommand doExecute() {
         memento = model.createMemento();
         execute();
         return this;
     }
 
-    public void unExecute(){
+    public void unExecute() {
         model.setMemento(memento);
     }
 }

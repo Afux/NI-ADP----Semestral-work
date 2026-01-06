@@ -1,5 +1,9 @@
 package cz.cvut.fit.niadp;
 
+import cz.cvut.fit.niadp.mvcgame.MvcGame;
+import cz.cvut.fit.niadp.mvcgame.bridge.GameGraphics;
+import cz.cvut.fit.niadp.mvcgame.bridge.IGameGraphics;
+import cz.cvut.fit.niadp.mvcgame.bridge.JavaFxGraphics;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -9,11 +13,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-
-import cz.cvut.fit.niadp.mvcgame.MvcGame;
-import cz.cvut.fit.niadp.mvcgame.bridge.GameGraphics;
-import cz.cvut.fit.niadp.mvcgame.bridge.IGameGraphics;
-import cz.cvut.fit.niadp.mvcgame.bridge.JavaFxGraphics;
 
 public class MvcGameJavaFxLauncher extends Application {
 
@@ -29,12 +28,12 @@ public class MvcGameJavaFxLauncher extends Application {
         String winTitle = theMvcGame.getWindowTitle();
         int winWidth = theMvcGame.getWindowWidth();
         int winHeigth = theMvcGame.getWindowHeight();
-        stage.setTitle( winTitle );
+        stage.setTitle(winTitle);
         Group root = new Group();
-        Scene theScene = new Scene( root );
-        stage.setScene( theScene );
-        Canvas canvas = new Canvas( winWidth, winHeigth );
-        root.getChildren().add( canvas );
+        Scene theScene = new Scene(root);
+        stage.setScene(theScene);
+        Canvas canvas = new Canvas(winWidth, winHeigth);
+        root.getChildren().add(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         IGameGraphics gameGraphics = new GameGraphics(new JavaFxGraphics(gc));
         ArrayList<String> pressedKeysCodes = new ArrayList<>();
@@ -49,7 +48,7 @@ public class MvcGameJavaFxLauncher extends Application {
         theScene.setOnKeyReleased(
                 e -> {
                     String code = e.getCode().toString();
-                    pressedKeysCodes.remove( code );
+                    pressedKeysCodes.remove(code);
                 }
         );
         // the game-loop

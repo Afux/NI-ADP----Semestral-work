@@ -7,7 +7,7 @@ public class GameGraphics implements IGameGraphics {
 
     protected IGameGraphicsImplementor implementor;
 
-    public GameGraphics(IGameGraphicsImplementor implementor){
+    public GameGraphics(IGameGraphicsImplementor implementor) {
         this.implementor = implementor;
     }
 
@@ -33,7 +33,7 @@ public class GameGraphics implements IGameGraphics {
 
     @Override
     public void drawImage(String path, Position position, ObjectSize size) {
-        implementor.drawImage(path, position,size);
+        implementor.drawImage(path, position, size);
     }
 
     @Override

@@ -3,7 +3,8 @@ package cz.cvut.fit.niadp.mvcgame.model;
 public class ObjectSize {
     int width;
     int height;
-    public ObjectSize(int width, int height){
+
+    public ObjectSize(int width, int height) {
         this.width = width;
         this.height = height;
     }

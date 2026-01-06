@@ -1,11 +1,10 @@
 package cz.cvut.fit.niadp.mvcgame.strategy;
 
-import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.GameModel;
 import cz.cvut.fit.niadp.mvcgame.model.Vector;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 
-public class SimpleMovingStrategy implements IMovingStrategy{
+public class SimpleMovingStrategy implements IMovingStrategy {
 
     @Override
     public void updatePosition(AbstractMissile missile) {
@@ -21,8 +20,9 @@ public class SimpleMovingStrategy implements IMovingStrategy{
     public IMovingStrategy getNextStrategy(GameModel model) {
         return model.getNextMovingStrategy(this);
     }
+
     @Override
     public String getName() {
-        return "SimpleMovingStrategy";
+        return "Simple";
     }
 }

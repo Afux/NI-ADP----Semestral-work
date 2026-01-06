@@ -1,22 +1,22 @@
 package cz.cvut.fit.niadp.mvcgame.controller;
 
-import java.util.List;
-
 import cz.cvut.fit.niadp.mvcgame.command.*;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameKeys;
 import cz.cvut.fit.niadp.mvcgame.memento.CareTaker;
 import cz.cvut.fit.niadp.mvcgame.proxy.IGameModel;
 
+import java.util.List;
+
 public class GameController {
     private final IGameModel model;
 
-    public GameController(IGameModel model){
+    public GameController(IGameModel model) {
         this.model = model;
     }
 
     public void processPressedKeys(List<String> pressedKeysCodes) {
-        for(String code : pressedKeysCodes) {
-            switch(code) {
+        for (String code : pressedKeysCodes) {
+            switch (code) {
                 case MvcGameKeys.UP_KEY:
                     model.registerCommand(new MoveCannonUpCommand(model));
                     break;
@@ -24,7 +24,7 @@ public class GameController {
                     model.registerCommand(new MoveCannonDownCommand(model));
                     break;
                 case MvcGameKeys.SPACE_KEY:
-                    model.cannonShoot();
+                    model.registerCommand(new CannonShootCommand(model));
                     break;
                 case MvcGameKeys.ESCAPE_KEY:
                     System.exit(0);
@@ -56,7 +56,7 @@ public class GameController {
                 case MvcGameKeys.UNDO_LAST_COMMAND_KEY:
                     model.undoLastCommand();
                     break;
-                default: 
+                default:
                     //nothing
             }
         }

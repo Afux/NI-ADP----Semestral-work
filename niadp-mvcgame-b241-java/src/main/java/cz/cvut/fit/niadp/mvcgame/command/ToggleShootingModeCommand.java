@@ -4,7 +4,7 @@ import cz.cvut.fit.niadp.mvcgame.proxy.IGameModel;
 
 public class ToggleShootingModeCommand extends AbstractGameCommand {
     public ToggleShootingModeCommand(IGameModel model) {
-this.model=model;
+        this.model = model;
     }
 
     @Override

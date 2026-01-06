@@ -9,19 +9,20 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
 import cz.cvut.fit.niadp.mvcgame.strategy.IMovingStrategy;
 import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
 
-public class MissileA extends AbstractMissile { 
+public class MissileA extends AbstractMissile {
 
     public MissileA(Position initPosition, double initAngle, int initVelocity, IMovingStrategy movingStrategy) {
         super(initPosition, initAngle, initVelocity, movingStrategy);
         position = initPosition;
     }
+
     public MissileA(AbstractMissile missile) {
         super(missile);
     }
 
     @Override
     public void onCollision(Collideable other, GameModel model) {
-        other.collideWithMissile(this,model);
+        other.collideWithMissile(this, model);
     }
 
 

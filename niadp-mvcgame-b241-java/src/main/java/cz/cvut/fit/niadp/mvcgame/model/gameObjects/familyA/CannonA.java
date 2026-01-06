@@ -1,8 +1,5 @@
 package cz.cvut.fit.niadp.mvcgame.model.gameObjects.familyA;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cz.cvut.fit.niadp.mvcgame.abstractFactory.IGameObjectsFactory;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.GameModel;
@@ -12,16 +9,21 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractCannon;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.CannonState;
 import cz.cvut.fit.niadp.mvcgame.state.DoubleShootingMode;
+import cz.cvut.fit.niadp.mvcgame.state.IShootingMode;
 import cz.cvut.fit.niadp.mvcgame.state.SingleShootingMode;
 import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CannonA extends AbstractCannon {
-    
+
 
     protected final List<AbstractMissile> shootingBatch;
 
-    public CannonA(Position position, IGameObjectsFactory gameObjectsFactory){
+    public CannonA(Position position, IGameObjectsFactory gameObjectsFactory) {
 
         this.position = position;
         this.gameObjectsFactory = gameObjectsFactory;
@@ -32,7 +34,7 @@ public class CannonA extends AbstractCannon {
     }
 
 
-    public CannonA(AbstractCannon cannon){
+    public CannonA(AbstractCannon cannon) {
 
         this.position = new Position(cannon.getPosition());
         this.gameObjectsFactory = cannon.getGameObjectsFactory();
@@ -43,48 +45,63 @@ public class CannonA extends AbstractCannon {
 
     }
 
-    public void moveUp(){
+    public CannonA(CannonState cannon, IGameObjectsFactory gameObjectsFactory) {
+
+        this.position = new Position(cannon.posX(), cannon.posY());
+        this.gameObjectsFactory = gameObjectsFactory;
+        angle = cannon.angle();
+        power = cannon.power();
+        this.shootingMode = IShootingMode.getInstance(cannon.shootingModeName());
+        shootingBatch = new ArrayList<AbstractMissile>();
+
+    }
+
+    public void moveUp() {
         move(new Vector(0, -1 * MvcGameConfig.MOVE_STEP));
     }
 
-    public void moveDown(){
-        
+    public void moveDown() {
+
         move(new Vector(0, MvcGameConfig.MOVE_STEP));
     }
-    public List<AbstractMissile> shoot(){
+
+    public List<AbstractMissile> shoot() {
         shootingBatch.clear();
         shootingMode.shoot(this);
         return shootingBatch;
     }
 
-    public void primitiveShoot(){
-       shootingBatch.add(gameObjectsFactory.createMissile(angle, power));
+    public void primitiveShoot() {
+        shootingBatch.add(gameObjectsFactory.createMissile(angle, power));
     }
 
     @Override
     public void aimUp() {
         angle -= MvcGameConfig.ANGLE_STEP;
     }
+
     @Override
     public void aimDown() {
         angle += MvcGameConfig.ANGLE_STEP;
     }
+
     @Override
     public void powerUp() {
         power += MvcGameConfig.POWER_STEP;
     }
+
     @Override
     public void powerDown() {
         power -= MvcGameConfig.POWER_STEP;
     }
 
     @Override
-    public void toggleShootingMode(){
-        if(shootingMode instanceof SingleShootingMode){
+    public void toggleShootingMode() {
+        if (shootingMode instanceof SingleShootingMode) {
             shootingMode = new DoubleShootingMode();
-        }else if(shootingMode instanceof DoubleShootingMode){
+        } else if (shootingMode instanceof DoubleShootingMode) {
             shootingMode = new SingleShootingMode();
-        }else {
+        } else {
 
         }
     }

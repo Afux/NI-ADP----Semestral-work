@@ -4,14 +4,17 @@ import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.familyA.*;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.CannonState;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.EnemyState;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.PowerUpState;
 import cz.cvut.fit.niadp.mvcgame.proxy.IGameModel;
 import cz.cvut.fit.niadp.mvcgame.state.IPowerUpType;
 
-public class GameObjectsFactoryA implements IGameObjectsFactory{
+public class GameObjectsFactoryA implements IGameObjectsFactory {
 
     protected final IGameModel model;
 
-    public GameObjectsFactoryA(IGameModel model){
+    public GameObjectsFactoryA(IGameModel model) {
         this.model = model;
     }
 
@@ -28,10 +31,10 @@ public class GameObjectsFactoryA implements IGameObjectsFactory{
     @Override
     public MissileA createMissile(double initAngle, int initVelocity) {
         return new MissileA(
-            new Position(model.getCannonPosition().getX(), model.getCannonPosition().getY()),
-            initAngle,
-            initVelocity,
-            model.getMovingStrategy()
+                new Position(model.getCannonPosition().getX(), model.getCannonPosition().getY()),
+                initAngle,
+                initVelocity,
+                model.getMovingStrategy()
         );
     }
 
@@ -49,6 +52,7 @@ public class GameObjectsFactoryA implements IGameObjectsFactory{
     public AbstractCollision createCollision(Position pos) {
         return new CollisionA(pos);
     }
+
     @Override
     public AbstractGameInfo createGameInfo() {
         return new GameInfoA(model);
@@ -71,7 +75,38 @@ public class GameObjectsFactoryA implements IGameObjectsFactory{
 
     @Override
     public AbstractPowerUp createPowerUp(Position pos, IPowerUpType type) {
-        return  new PowerUpA(pos,type);
+        return new PowerUpA(pos, type);
     }
 
+    @Override
+    public AbstractCannon createCannonFromState(CannonState cannon) {
+        return new CannonA(cannon, this);
+
+    }
+
+    @Override
+    public CannonState createCannonState(AbstractCannon cannon) {
+        return new CannonState(cannon.getPosition().getX(), cannon.getPosition().getY(), cannon.getAngle(), cannon.getPower(), cannon.getShootingModeName());
+    }
+
+    @Override
+    public EnemyState createEnemyState(AbstractEnemy e) {
+        return new EnemyState(e.getPosition().getX(), e.getPosition().getY(), e.getHealthPoints());
+    }
+
+    @Override
+    public AbstractEnemy createEnemyFromState(EnemyState s) {
+        return new EnemyA(s);
+
+    }
+
+    @Override
+    public AbstractPowerUp createPowerUpFromState(PowerUpState p) {
+        return new PowerUpA(p);
+    }
+
+    @Override
+    public PowerUpState createPowerUpState(AbstractPowerUp p) {
+        return new PowerUpState(p.getPosition().getX(), p.getPosition().getY(), p.getTypeName());
+    }
 }

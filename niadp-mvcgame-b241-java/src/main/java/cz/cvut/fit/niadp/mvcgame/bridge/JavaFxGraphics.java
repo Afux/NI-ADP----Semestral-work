@@ -3,16 +3,17 @@ package cz.cvut.fit.niadp.mvcgame.bridge;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.ObjectSize;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
-import javafx.css.Size;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class JavaFxGraphics  implements IGameGraphicsImplementor {
-    
+public class JavaFxGraphics implements IGameGraphicsImplementor {
+
     private final GraphicsContext graphicsContext;
     private final Map<String, Image> imageCache = new HashMap<>();
+
     public JavaFxGraphics(GraphicsContext graphicsContext) {
         this.graphicsContext = graphicsContext;
     }
@@ -24,7 +25,7 @@ public class JavaFxGraphics  implements IGameGraphicsImplementor {
             image = new Image(path);
             imageCache.put(path, image);
         }
-        graphicsContext.drawImage(image, position.getX(), position.getY(),size.getWidth(),size.getHeight());
+        graphicsContext.drawImage(image, position.getX(), position.getY(), size.getWidth(), size.getHeight());
     }
 
     @Override

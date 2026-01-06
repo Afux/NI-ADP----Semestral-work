@@ -7,6 +7,7 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractCannon;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.EnemyState;
 import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
 
 public class EnemyA extends AbstractEnemy {
@@ -14,14 +15,20 @@ public class EnemyA extends AbstractEnemy {
         this.position = pos;
         this.healthPoints = MvcGameConfig.MAX_HEALTH_POINTS;
     }
+
     public EnemyA(AbstractEnemy enemy) {
         this.position = new Position(enemy.getPosition());
         this.healthPoints = enemy.getHealthPoints();
     }
 
+    public EnemyA(EnemyState enemy) {
+        this.position = new Position(enemy.posX(), enemy.posY());
+        this.healthPoints = enemy.healthPoints();
+    }
+
     @Override
     public void hitEnemy(int damage) {
-        healthPoints-=damage;
+        healthPoints -= damage;
     }
 
     @Override
@@ -47,7 +54,7 @@ public class EnemyA extends AbstractEnemy {
     @Override
     public void collideWithMissile(AbstractMissile missile, GameModel model) {
         hitEnemy(missile.getDamage());
-        if(getHealthPoints()<=0){
+        if (getHealthPoints() <= 0) {
             setLifeStatus(false);
         }
     }

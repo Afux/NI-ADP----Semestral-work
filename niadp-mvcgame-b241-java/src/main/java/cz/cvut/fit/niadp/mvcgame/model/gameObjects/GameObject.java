@@ -16,15 +16,25 @@ public abstract class GameObject implements IVisitable, Collideable {
         this.size = MvcGameConfig.MEDIUM_GAME_OBJECT_SIZE;
         this.isAlive = true;
     }
-    public void move(Vector vector){
+
+    public void move(Vector vector) {
         position.add(vector);
     }
 
-    public Position getPosition(){
+    public Position getPosition() {
         return position;
     }
-    public ObjectSize getSize(){return size;}
-    public boolean getLifeStatus(){return isAlive;}
-    public void setLifeStatus(boolean isAlive){this.isAlive = isAlive;}
+
+    public ObjectSize getSize() {
+        return size;
+    }
+
+    public boolean getLifeStatus() {
+        return isAlive;
+    }
+
+    public void setLifeStatus(boolean isAlive) {
+        this.isAlive = isAlive;
+    }
 
 }

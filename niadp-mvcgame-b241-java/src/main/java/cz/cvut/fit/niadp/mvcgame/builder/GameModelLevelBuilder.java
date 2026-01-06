@@ -5,9 +5,10 @@ import cz.cvut.fit.niadp.mvcgame.model.Position;
 import cz.cvut.fit.niadp.mvcgame.state.IPowerUpType;
 import javafx.scene.Scene;
 
-public class GameModelLevelBuilder implements ILevelBuilder{
+public class GameModelLevelBuilder implements ILevelBuilder {
 
     private GameModel result;
+
     @Override
     public void reset() {
         result = new GameModel();
@@ -25,7 +26,7 @@ public class GameModelLevelBuilder implements ILevelBuilder{
 
     @Override
     public void placePowerUp(Position pos, IPowerUpType type) {
-        result.addPowerUp(pos,type);
+        result.addPowerUp(pos, type);
     }
 
     @Override

@@ -1,16 +1,15 @@
 package cz.cvut.fit.niadp.mvcgame.state;
 
-import cz.cvut.fit.niadp.mvcgame.decorator.HugeMissilePowerUp;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 
-public class HugeMissilePoweUp implements IPowerUpType {
+public class HugeMissilePowerUp implements IPowerUpType {
     @Override
     public String getName() {
-        return "HugeMissilePoweUp";
+        return "HugeMissilePowerUp";
     }
 
     @Override
     public AbstractMissile applyPowerUp(AbstractMissile missile) {
-        return new HugeMissilePowerUp(missile);
+        return new cz.cvut.fit.niadp.mvcgame.decorator.HugeMissilePowerUp(missile);
     }
 }

@@ -11,8 +11,9 @@ public abstract class AbstractCollision extends LifetimeLimitedGameObject {
         super(position);
 
     }
+
     @Override
-    public void accept(IVisitor visitor){
+    public void accept(IVisitor visitor) {
         visitor.visit(this);
     }
 

@@ -4,7 +4,7 @@ import cz.cvut.fit.niadp.mvcgame.proxy.IGameModel;
 
 public class MoveCannonUpCommand extends AbstractGameCommand {
 
-    public MoveCannonUpCommand(IGameModel model){
+    public MoveCannonUpCommand(IGameModel model) {
         this.model = model;
     }
 
@@ -12,4 +12,5 @@ public class MoveCannonUpCommand extends AbstractGameCommand {
     protected void execute() {
         model.moveCannonUp();
     }
+
 }
