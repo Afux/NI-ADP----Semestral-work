@@ -333,6 +333,10 @@ public class GameModel implements IGameModel {
         this.cannon = cannon;
     }
 
+   public ObjectSize getCanonSize(){
+        return cannon.getSize();
+   }
+
     private static class Memento implements Serializable {
         private CannonState cannon;
 

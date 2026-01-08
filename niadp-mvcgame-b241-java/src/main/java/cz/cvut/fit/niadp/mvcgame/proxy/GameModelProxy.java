@@ -47,7 +47,7 @@ public class GameModelProxy implements IGameModel {
 
     @Override
     public void moveCannonUp() {
-        if ((subject.getCannonPosition().getY()) <= MvcGameConfig.MAX_Y + MvcGameConfig.MOVE_STEP) {
+        if ((subject.getCannonPosition().getY()-MvcGameConfig.MOVE_STEP) >= 0 ) {
             subject.moveCannonUp();
 
         }
@@ -55,7 +55,8 @@ public class GameModelProxy implements IGameModel {
 
     @Override
     public void moveCannonDown() {
-        if ((subject.getCannonPosition().getY()) >= (-MvcGameConfig.MOVE_STEP)) {
+        if ((subject.getCannonPosition().getY() + MvcGameConfig.MOVE_STEP) <= (MvcGameConfig.MAX_Y)-subject.getCanonSize().getHeight()) {
+            System.out.println(subject.getCannonPosition().getY());
             subject.moveCannonDown();
 
         }
