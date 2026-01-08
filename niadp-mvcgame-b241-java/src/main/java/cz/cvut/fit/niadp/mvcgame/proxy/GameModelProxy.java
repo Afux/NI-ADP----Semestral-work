@@ -47,7 +47,7 @@ public class GameModelProxy implements IGameModel {
 
     @Override
     public void moveCannonUp() {
-        if ((subject.getCannonPosition().getY()-MvcGameConfig.MOVE_STEP) >= 0 ) {
+        if ((subject.getCannonPosition().getY() - MvcGameConfig.MOVE_STEP) >= 0) {
             subject.moveCannonUp();
 
         }
@@ -55,8 +55,7 @@ public class GameModelProxy implements IGameModel {
 
     @Override
     public void moveCannonDown() {
-        if ((subject.getCannonPosition().getY() + MvcGameConfig.MOVE_STEP) <= (MvcGameConfig.MAX_Y)-subject.getCanonSize().getHeight()) {
-            System.out.println(subject.getCannonPosition().getY());
+        if ((subject.getCannonPosition().getY() + MvcGameConfig.MOVE_STEP) <= (MvcGameConfig.MAX_Y) - subject.getCanonSize().getHeight()) {
             subject.moveCannonDown();
 
         }
@@ -192,5 +191,16 @@ public class GameModelProxy implements IGameModel {
     @Override
     public Set<AbstractPowerUp> getPowerUps() {
         return subject.getPowerUps();
+    }
+
+    @Override
+    public void enterTextCommand(IGameModel model) {
+        subject.enterTextCommand(this);
+    }
+
+    @Override
+    public void changeLevel() {
+        subject.changeLevel();
+
     }
 }

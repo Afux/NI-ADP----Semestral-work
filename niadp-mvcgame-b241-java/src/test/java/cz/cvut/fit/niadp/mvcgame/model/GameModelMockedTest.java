@@ -1,16 +1,15 @@
 package cz.cvut.fit.niadp.mvcgame.model;
 
-import cz.cvut.fit.niadp.mvcgame.decorator.HugeMissilePowerUp;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
-import org.junit.Assert;
-import org.junit.Test;
-
 import cz.cvut.fit.niadp.mvcgame.abstractFactory.GameObjectsFactoryA;
 import cz.cvut.fit.niadp.mvcgame.abstractFactory.IGameObjectsFactory;
+import cz.cvut.fit.niadp.mvcgame.decorator.HugeMissilePowerUp;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 import mockit.Mock;
 import mockit.MockUp;
 import mockit.Mocked;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class GameModelMockedTest {
     private static final double INIT_ANGLE = 0;
@@ -20,6 +19,7 @@ public class GameModelMockedTest {
 
     @Mocked
     private GameModel model;
+
     @Test
     public void createMissileTest() {
         generalMocks();
@@ -33,24 +33,25 @@ public class GameModelMockedTest {
     public void multiplePowerUpsStackCorrectlyTest() {
         IGameObjectsFactory factory = new GameObjectsFactoryA(model);
         AbstractMissile missile = factory.createMissile(INIT_ANGLE, INIT_VELOCITY);
-        int missileInitDamage= missile.getDamage();
+        int missileInitDamage = missile.getDamage();
         missile = new HugeMissilePowerUp(missile);
-        Assert.assertEquals(missileInitDamage+50, missile.getDamage());
+        Assert.assertEquals(missileInitDamage + 50, missile.getDamage());
         missile = new HugeMissilePowerUp(missile);
-        Assert.assertEquals(missileInitDamage+50+50, missile.getDamage());
+        Assert.assertEquals(missileInitDamage + 50 + 50, missile.getDamage());
 
     }
+
     @Test
     public void missileCollidedWithEnemyTest() {
         IGameObjectsFactory factory = new GameObjectsFactoryA(model);
         AbstractMissile missile = factory.createMissile(INIT_ANGLE, INIT_VELOCITY);
-        AbstractEnemy enemy = factory.createEnemy(new Position(0,0));
+        AbstractEnemy enemy = factory.createEnemy(new Position(0, 0));
         Assert.assertEquals(100, enemy.getHealthPoints());
-        Assert.assertEquals(true, missile.getLifeStatus());
-        missile.onCollision(enemy,model);
-        enemy.onCollision(missile,model);
-        Assert.assertEquals(100-missile.getDamage(), enemy.getHealthPoints());
-        Assert.assertEquals(false, missile.getLifeStatus());
+        Assert.assertTrue(missile.getLifeStatus());
+        missile.onCollision(enemy, model);
+        enemy.onCollision(missile, model);
+        Assert.assertEquals(100 - missile.getDamage(), enemy.getHealthPoints());
+        Assert.assertFalse(missile.getLifeStatus());
 
     }
 

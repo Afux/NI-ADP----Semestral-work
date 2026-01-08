@@ -69,4 +69,8 @@ public interface IGameModel extends IObservable {
     String getMovingStrategyName();
 
     Set<AbstractPowerUp> getPowerUps();
+
+    void enterTextCommand(IGameModel model);
+
+    void changeLevel();
 }

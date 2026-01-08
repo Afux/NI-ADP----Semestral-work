@@ -4,6 +4,8 @@ import cz.cvut.fit.niadp.mvcgame.abstractFactory.GameObjectsFactoryA;
 import cz.cvut.fit.niadp.mvcgame.abstractFactory.IGameObjectsFactory;
 import cz.cvut.fit.niadp.mvcgame.command.AbstractGameCommand;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
+import cz.cvut.fit.niadp.mvcgame.interpretor.CommandExpression;
+import cz.cvut.fit.niadp.mvcgame.interpretor.CommandParser;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.CannonState;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.EnemyState;
@@ -333,9 +335,9 @@ public class GameModel implements IGameModel {
         this.cannon = cannon;
     }
 
-   public ObjectSize getCanonSize(){
+    public ObjectSize getCanonSize() {
         return cannon.getSize();
-   }
+    }
 
     private static class Memento implements Serializable {
         private CannonState cannon;
@@ -345,7 +347,18 @@ public class GameModel implements IGameModel {
         private Set<PowerUpState> powerUps;
         private String movingStrategy;
         private int score;
-        /*   */
-        // game snapshot
+
+    }
+
+    @Override
+    public void enterTextCommand(IGameModel model) {
+        String scriptText = "up up up shoot";
+        CommandExpression expression = CommandParser.parse(scriptText);
+        expression.interpret(model);
+    }
+
+    @Override
+    public void changeLevel() {
+
     }
 }

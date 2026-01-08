@@ -1,6 +1,8 @@
 package cz.cvut.fit.niadp.mvcgame.model;
+
 import org.junit.Assert;
 import org.junit.Test;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.stream.IntStream;
@@ -18,13 +20,14 @@ public class GameModelReflectionTest {
         GameModel model = new GameModel();
         Method method = model.getClass().getDeclaredMethod(MOVE_MISSILES_METHOD_NAME);
         method.setAccessible(true);
-        IntStream.rangeClosed(ITERATION_START_CONST, AIM_COUNT).forEach(i->model.aimCannonUp());
-        IntStream.rangeClosed(ITERATION_START_CONST, MISSILE_COUNT).forEach(i->model.cannonShoot());
+        IntStream.rangeClosed(ITERATION_START_CONST, AIM_COUNT).forEach(i -> model.aimCannonUp());
+        IntStream.rangeClosed(ITERATION_START_CONST, MISSILE_COUNT).forEach(i -> model.cannonShoot());
         Assert.assertEquals(MISSILE_COUNT + 2, model.getGameObjects().size());
-        IntStream.rangeClosed(ITERATION_START_CONST, MOVE_COUNT).forEach(i-> {
+        IntStream.rangeClosed(ITERATION_START_CONST, MOVE_COUNT).forEach(i -> {
             try {
                 method.invoke(model);
-            } catch (IllegalAccessException | InvocationTargetException ignored) {}
+            } catch (IllegalAccessException | InvocationTargetException ignored) {
+            }
         });
         method.setAccessible(false);
         Assert.assertEquals(EXPECTED_MISSILES_COUNT, model.getGameObjects().size() - 2); //gameObjects contain cannon + gameInfo

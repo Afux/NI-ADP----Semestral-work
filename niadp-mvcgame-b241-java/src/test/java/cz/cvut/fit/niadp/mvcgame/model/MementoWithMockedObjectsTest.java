@@ -28,6 +28,7 @@ public class MementoWithMockedObjectsTest {
     private AbstractPowerUp mockedPowerUp;
     @Mocked
     private AbstractPowerUp restoredPowerUp;
+
     @Test
     public void saveAndRestoreMemento() {
         setupFactoryMock();
@@ -57,7 +58,7 @@ public class MementoWithMockedObjectsTest {
         model.setMemento(memento);
 
         Assert.assertEquals(100, model.getScore());
-        Assert.assertEquals( originalStrategy, model.getMovingStrategyName());
+        Assert.assertEquals(originalStrategy, model.getMovingStrategyName());
 
         Assert.assertEquals(1, model.getEnemies().size());
         Assert.assertTrue(model.getEnemies().contains(restoredEnemy));

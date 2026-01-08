@@ -9,11 +9,12 @@ import java.util.Stack;
 public class CareTaker {
     private final Stack<Object> mementos = new Stack<Object>();
     private IGameModel model;
-    private int maxSaveSlots = MvcGameConfig.MAX_SNAPSHOT_SAVE_SLOTS;
-    private String filePrefix = MvcGameConfig.SNAPSHOT_FILE_PREFIX;
+    private final int maxSaveSlots = MvcGameConfig.MAX_SNAPSHOT_SAVE_SLOTS;
+    private final String filePrefix = MvcGameConfig.SNAPSHOT_FILE_PREFIX;
     private static int nextSaveSlot = 1;
 
-    private CareTaker() {}
+    private CareTaker() {
+    }
 
     private static class SingletonHolder {
         private static final CareTaker INSTANCE = new CareTaker();
@@ -36,15 +37,16 @@ public class CareTaker {
 
         }
     }
+
     public void restoreMemento() {
-        int loadSlot=(nextSaveSlot-1) >= 1 ? (nextSaveSlot-1) : maxSaveSlots;
+        int loadSlot = (nextSaveSlot - 1) >= 1 ? (nextSaveSlot - 1) : maxSaveSlots;
         String fileName = filePrefix + loadSlot;
         File f = new File(fileName);
         if (model != null && f.exists()) {
             loadSnapshotFromFile(fileName);
             System.out.println("Snapshot restored");
 
-           // model.setMemento(mementos.pop());
+            // model.setMemento(mementos.pop());
         }
     }
 
@@ -56,7 +58,7 @@ public class CareTaker {
             FileOutputStream fileOut = new FileOutputStream(filePath);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(memento);
-            nextSaveSlot = (nextSaveSlot >= maxSaveSlots) ? 1 : (nextSaveSlot +1);
+            nextSaveSlot = (nextSaveSlot >= maxSaveSlots) ? 1 : (nextSaveSlot + 1);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -68,9 +70,9 @@ public class CareTaker {
         if (model == null) return;
         try (FileInputStream fileIn = new FileInputStream(filePath);
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
-             Object memento = in.readObject();
-             model.setMemento(memento);
-             nextSaveSlot = (nextSaveSlot <= 1) ? maxSaveSlots : (nextSaveSlot -1);
+            Object memento = in.readObject();
+            model.setMemento(memento);
+            nextSaveSlot = (nextSaveSlot <= 1) ? maxSaveSlots : (nextSaveSlot - 1);
 
 
         } catch (IOException | ClassNotFoundException e) {

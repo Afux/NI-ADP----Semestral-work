@@ -24,8 +24,6 @@ public class Director {
     }
 
     public void CreatePeaceFullLevel() {
-        //builder.setWalls()
-        // builder.setSceneWheatherTime();
     }
 
     public void CreateRandomLevel() {
@@ -42,7 +40,6 @@ public class Director {
             builder.placePowerUp(pos, new SpeedPowerUp());
         });
 
-        // builder.setSceneWheatherTime();
     }
 
     public void CreateEasyLevel() {

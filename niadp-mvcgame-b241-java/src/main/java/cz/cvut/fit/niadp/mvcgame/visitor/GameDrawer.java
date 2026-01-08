@@ -8,12 +8,12 @@ import cz.cvut.fit.niadp.mvcgame.model.Position;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
 
 public class GameDrawer implements IVisitor {
+    protected IGameGraphics gameGraphics;
+
     @Override
     public void visit(AbstractScene scene) {
         drawBackGround(MvcGameResources.BACKGROUND_RESOURCE);
     }
-
-    protected IGameGraphics gameGraphics;
 
     public void setGraphicsContext(IGameGraphics gameGraphics) {
         this.gameGraphics = gameGraphics;
