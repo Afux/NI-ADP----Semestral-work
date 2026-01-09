@@ -13,6 +13,7 @@ Tento repozitář obsahuje semestrální práci připravenou k obhajobě v před
 3) Přidané power upy na rakety pomocí ***Decoratoru***
 4) Přidaná kontrola před vykonáním příkazů v ***Proxy***
 5) Přidání univerzálního systému kolizi pomocí ***Double Dispatch***
+6) Přidaní ***Interpretera*** pro možnost ovládat hru pomocí příkazů
 
 ## **Nepovinná část -- serializace snapshotu**
 1) Vylepšení mementa pro ukládaní snapshotu do souboru s využitím circle bufferu
