@@ -26,7 +26,7 @@ public class HugeMissilePowerUp extends MissileDecorator {
 
     @Override
     public void onCollision(ICollideable other, GameModel model) {
-        super.wrappedMissile.onCollision(other, model);
+        other.collideWithMissile(this, model);
         setLifeStatus(false);
 
 
