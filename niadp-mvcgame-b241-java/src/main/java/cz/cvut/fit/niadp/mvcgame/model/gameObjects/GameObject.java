@@ -5,9 +5,9 @@ import cz.cvut.fit.niadp.mvcgame.model.ObjectSize;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
 import cz.cvut.fit.niadp.mvcgame.model.Vector;
 import cz.cvut.fit.niadp.mvcgame.visitor.IVisitable;
-import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
+import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.ICollideable;
 
-public abstract class GameObject implements IVisitable, Collideable {
+public abstract class GameObject implements IVisitable, ICollideable {
     protected Position position;
     protected ObjectSize size;
     protected boolean isAlive;

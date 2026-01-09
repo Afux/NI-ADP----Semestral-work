@@ -6,8 +6,8 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
 
-public interface Collideable {
-    void onCollision(Collideable other, GameModel model);
+public interface ICollideable {
+    void onCollision(ICollideable other, GameModel model);
 
     void collideWithCanon(AbstractCannon Canon, GameModel model);
 

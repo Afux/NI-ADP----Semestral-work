@@ -12,6 +12,7 @@ public class GameDrawer implements IVisitor {
 
     @Override
     public void visit(AbstractScene scene) {
+
         drawBackGround(MvcGameResources.BACKGROUND_RESOURCE);
     }
 
@@ -41,10 +42,6 @@ public class GameDrawer implements IVisitor {
 
     }
 
-    @Override
-    public void visit(AbstractCollision collision) {
-        drawGameObject(collision, MvcGameResources.DEAD_ENEMY_RESOURCE);
-    }
 
     @Override
     public void visit(AbstractGameInfo gameInfo) {

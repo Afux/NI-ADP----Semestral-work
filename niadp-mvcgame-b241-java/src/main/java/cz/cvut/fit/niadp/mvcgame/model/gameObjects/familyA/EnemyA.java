@@ -8,7 +8,7 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.EnemyState;
-import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
+import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.ICollideable;
 
 public class EnemyA extends AbstractEnemy {
     public EnemyA(Position pos) {
@@ -32,7 +32,7 @@ public class EnemyA extends AbstractEnemy {
     }
 
     @Override
-    public void onCollision(Collideable other, GameModel model) {
+    public void onCollision(ICollideable other, GameModel model) {
         other.collideWithEnemy(this, model);
     }
 

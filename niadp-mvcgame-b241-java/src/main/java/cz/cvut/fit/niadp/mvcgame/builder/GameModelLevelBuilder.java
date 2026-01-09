@@ -7,16 +7,16 @@ import javafx.scene.Scene;
 
 public class GameModelLevelBuilder implements ILevelBuilder {
 
-    private GameModel result;
+    private GameModel model;
 
     @Override
     public void reset() {
-        result = new GameModel();
+        model = new GameModel();
     }
 
     @Override
     public void placeEnemy(Position pos) {
-        result.addEnemy(pos);
+        model.addEnemy(pos);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class GameModelLevelBuilder implements ILevelBuilder {
 
     @Override
     public void placePowerUp(Position pos, IPowerUpType type) {
-        result.addPowerUp(pos, type);
+        model.addPowerUp(pos, type);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class GameModelLevelBuilder implements ILevelBuilder {
     }
 
     public GameModel getResult() {
-        return result;
+        return model;
     }
 
 

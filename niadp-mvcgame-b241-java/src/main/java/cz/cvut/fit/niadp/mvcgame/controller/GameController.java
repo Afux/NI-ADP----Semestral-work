@@ -59,9 +59,6 @@ public class GameController {
                 case MvcGameKeys.ENTER_TEXT_COMMAND_KEY:
                     model.enterTextCommand(model);
                     break;
-                case MvcGameKeys.CHANGE_LEVEL_KEY:
-                    model.changeLevel();
-                    break;
                 default:
                     //nothing
             }

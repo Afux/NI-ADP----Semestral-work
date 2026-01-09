@@ -72,5 +72,4 @@ public interface IGameModel extends IObservable {
 
     void enterTextCommand(IGameModel model);
 
-    void changeLevel();
 }

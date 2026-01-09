@@ -13,7 +13,7 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.CannonState;
 import cz.cvut.fit.niadp.mvcgame.state.DoubleShootingMode;
 import cz.cvut.fit.niadp.mvcgame.state.IShootingMode;
 import cz.cvut.fit.niadp.mvcgame.state.SingleShootingMode;
-import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
+import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.ICollideable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +107,7 @@ public class CannonA extends AbstractCannon {
     }
 
     @Override
-    public void onCollision(Collideable other, GameModel model) {
+    public void onCollision(ICollideable other, GameModel model) {
 
     }
 

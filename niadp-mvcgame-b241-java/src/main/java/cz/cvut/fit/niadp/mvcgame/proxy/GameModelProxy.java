@@ -198,9 +198,5 @@ public class GameModelProxy implements IGameModel {
         subject.enterTextCommand(this);
     }
 
-    @Override
-    public void changeLevel() {
-        subject.changeLevel();
 
-    }
 }

@@ -19,7 +19,7 @@ public class MvcGameConfig {
     public static final int MAX_Y = 1080;
     public static final int MIN_X = 0;
     public static final int MIN_Y = 0;
-    public static final int MOVE_STEP = 10;
+    public static final int MOVE_STEP = (int) (MAX_Y * 0.01);
 
     public static final int CANNON_POS_X = 50;
     public static final int CANNON_POS_Y = MAX_Y / 2;
@@ -37,7 +37,7 @@ public class MvcGameConfig {
             new Position(580, 500),
             new Position(540, 420)
     );
-    public static final List<Position> EASY_LEVEL_POWER_UPS__POSITIONS = List.of(new Position(600, 800));
+    public static final List<Position> EASY_LEVEL_POWER_UPS_POSITIONS = List.of(new Position(600, 800));
 
     public static final List<Position> MEDIUM_LEVEL_ENEMY_POSITIONS = List.of(
             new Position(480, 500),
@@ -47,7 +47,7 @@ public class MvcGameConfig {
             new Position(600, 250)
     );
 
-    public static final List<Position> MEDIUM_LEVEL_POWER_UPS__POSITIONS = List.of(new Position(200, 500));
+    public static final List<Position> MEDIUM_LEVEL_POWER_UPS_POSITIONS = List.of(new Position(200, 500));
 
     public static final List<Position> HARD_LEVEL_ENEMY_POSITIONS = List.of(
             new Position(450, 500),
@@ -59,7 +59,7 @@ public class MvcGameConfig {
             new Position(700, 200)
     );
 
-    public static final List<Position> HARD_LEVEL_POWER_UPS__POSITIONS = List.of(new Position(600, 800));
+    public static final List<Position> HARD_LEVEL_POWER_UPS_POSITIONS = List.of(new Position(600, 800));
 
     public static List<Position> ALL_POSSIBLE_ENEMIES_POSITION = List.of(
 

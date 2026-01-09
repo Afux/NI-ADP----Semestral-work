@@ -5,7 +5,7 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractCannon;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
-import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
+import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.ICollideable;
 
 public class SpeedyMissilePowerUp extends MissileDecorator {
     public SpeedyMissilePowerUp(AbstractMissile missile) {
@@ -19,17 +19,19 @@ public class SpeedyMissilePowerUp extends MissileDecorator {
     }
 
     @Override
-    public void onCollision(Collideable other, GameModel model) {
+    public void onCollision(ICollideable other, GameModel model) {
         super.wrappedMissile.onCollision(other, model);
     }
 
     @Override
     public void collideWithCanon(AbstractCannon Canon, GameModel model) {
+        setLifeStatus(false);
         super.wrappedMissile.collideWithCanon(Canon, model);
     }
 
     @Override
     public void collideWithEnemy(AbstractEnemy enemy, GameModel model) {
+        setLifeStatus(false);
         super.wrappedMissile.collideWithEnemy(enemy, model);
     }
 
@@ -41,6 +43,7 @@ public class SpeedyMissilePowerUp extends MissileDecorator {
 
     @Override
     public void collideWithPowerUp(AbstractPowerUp powerUp, GameModel model) {
+        setLifeStatus(false);
         super.wrappedMissile.collideWithPowerUp(powerUp, model);
     }
 }

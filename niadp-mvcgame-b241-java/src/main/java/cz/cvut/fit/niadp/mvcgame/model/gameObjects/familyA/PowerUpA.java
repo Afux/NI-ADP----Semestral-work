@@ -8,7 +8,7 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.PowerUpState;
 import cz.cvut.fit.niadp.mvcgame.state.IPowerUpType;
-import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
+import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.ICollideable;
 
 public class PowerUpA extends AbstractPowerUp {
 
@@ -26,7 +26,7 @@ public class PowerUpA extends AbstractPowerUp {
     }
 
     @Override
-    public void onCollision(Collideable other, GameModel model) {
+    public void onCollision(ICollideable other, GameModel model) {
         other.collideWithPowerUp(this, model);
 
     }

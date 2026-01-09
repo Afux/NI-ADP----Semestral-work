@@ -1,4 +1,4 @@
-package cz.cvut.fit.niadp.mvcgame.interpretor;
+package cz.cvut.fit.niadp.mvcgame.interpreter;
 
 public class CommandParser {
 

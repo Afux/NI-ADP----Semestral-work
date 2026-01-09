@@ -4,8 +4,8 @@ import cz.cvut.fit.niadp.mvcgame.abstractFactory.GameObjectsFactoryA;
 import cz.cvut.fit.niadp.mvcgame.abstractFactory.IGameObjectsFactory;
 import cz.cvut.fit.niadp.mvcgame.command.AbstractGameCommand;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
-import cz.cvut.fit.niadp.mvcgame.interpretor.CommandExpression;
-import cz.cvut.fit.niadp.mvcgame.interpretor.CommandParser;
+import cz.cvut.fit.niadp.mvcgame.interpreter.CommandExpression;
+import cz.cvut.fit.niadp.mvcgame.interpreter.CommandParser;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.CannonState;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.EnemyState;
@@ -29,7 +29,6 @@ public class GameModel implements IGameModel {
     protected final Queue<AbstractGameCommand> unexecutedCommands;
     protected final Stack<AbstractGameCommand> executedCommands;
     private final Set<AbstractMissile> missiles;
-    private final Set<AbstractCollision> collisions;
     private final Set<IObserver> observers;
     protected IMovingStrategy movingStrategy;
     private final Set<AbstractEnemy> enemies;
@@ -48,7 +47,6 @@ public class GameModel implements IGameModel {
         movingStrategy = new RealMovingStrategy();
         unexecutedCommands = new LinkedBlockingQueue<>();
         executedCommands = new Stack<>();
-        collisions = new HashSet<AbstractCollision>();
         enemies = new HashSet<>();
         powerUps = new HashSet<>();
         poweredUpedMissilies = new HashSet<>();
@@ -129,10 +127,6 @@ public class GameModel implements IGameModel {
         this.factory = factory;
     }
 
-    public Set<AbstractCollision> getCollisions() {
-        return collisions;
-    }
-
     public void moveCannonDown() {
         cannon.moveDown();
         notifyObservers();
@@ -185,7 +179,6 @@ public class GameModel implements IGameModel {
         gameObjects.addAll(missiles);
         gameObjects.add(cannon);
         gameObjects.addAll(enemies);
-        gameObjects.addAll(collisions);
         gameObjects.addAll(powerUps);
         return gameObjects;
     }
@@ -341,9 +334,7 @@ public class GameModel implements IGameModel {
 
     private static class Memento implements Serializable {
         private CannonState cannon;
-
         private Set<EnemyState> enemies;
-
         private Set<PowerUpState> powerUps;
         private String movingStrategy;
         private int score;
@@ -357,8 +348,4 @@ public class GameModel implements IGameModel {
         expression.interpret(model);
     }
 
-    @Override
-    public void changeLevel() {
-
-    }
 }

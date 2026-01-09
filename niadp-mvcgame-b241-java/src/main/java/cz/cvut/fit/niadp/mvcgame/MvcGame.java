@@ -1,8 +1,8 @@
 package cz.cvut.fit.niadp.mvcgame;
 
 import cz.cvut.fit.niadp.mvcgame.bridge.IGameGraphics;
-import cz.cvut.fit.niadp.mvcgame.builder.Director;
 import cz.cvut.fit.niadp.mvcgame.builder.GameModelLevelBuilder;
+import cz.cvut.fit.niadp.mvcgame.builder.GameModelLevelDirector;
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.controller.GameController;
 import cz.cvut.fit.niadp.mvcgame.memento.CareTaker;
@@ -18,7 +18,7 @@ public class MvcGame {
     private GameView view;
 
     private final GameModelLevelBuilder builder = new GameModelLevelBuilder();
-    private final Director director = new Director(builder);
+    private final GameModelLevelDirector director = new GameModelLevelDirector(builder);
 
     public void init() {
         director.CreateMediumLevel();

@@ -7,7 +7,7 @@ import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
 import cz.cvut.fit.niadp.mvcgame.strategy.IMovingStrategy;
-import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.Collideable;
+import cz.cvut.fit.niadp.mvcgame.visitor.doubleDispatch.ICollideable;
 
 public class MissileA extends AbstractMissile {
 
@@ -21,7 +21,7 @@ public class MissileA extends AbstractMissile {
     }
 
     @Override
-    public void onCollision(Collideable other, GameModel model) {
+    public void onCollision(ICollideable other, GameModel model) {
         other.collideWithMissile(this, model);
     }
 

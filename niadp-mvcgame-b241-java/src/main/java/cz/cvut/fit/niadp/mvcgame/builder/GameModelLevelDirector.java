@@ -10,45 +10,46 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Director {
+public class GameModelLevelDirector {
     private ILevelBuilder builder;
-    private final List<Position> allPosibleEnemiesPosition = new ArrayList<>(MvcGameConfig.ALL_POSSIBLE_ENEMIES_POSITION);
-    private final List<Position> allPosiblePowerUpsPosition = new ArrayList<>(MvcGameConfig.ALL_POSSIBLE_POWER_UPS_POSITIONS);
+    private final List<Position> allPossibleEnemiesPosition = new ArrayList<>(MvcGameConfig.ALL_POSSIBLE_ENEMIES_POSITION);
+    private final List<Position> allPossiblePowerUpsPosition = new ArrayList<>(MvcGameConfig.ALL_POSSIBLE_POWER_UPS_POSITIONS);
+    private long seed = System.nanoTime();
+    private final Random random = new Random(seed);
 
-    long seed = System.nanoTime();
-    Random random = new Random(seed);
-
-    public Director(ILevelBuilder builder) {
+    public GameModelLevelDirector(ILevelBuilder builder) {
         this.builder = builder;
-        this.builder.reset();
+        reset();
     }
 
     public void CreatePeaceFullLevel() {
+        reset();
     }
 
     public void CreateRandomLevel() {
+        reset();
+        Collections.shuffle(allPossibleEnemiesPosition);
+        Collections.shuffle(allPossiblePowerUpsPosition);
+        int pigCount = random.nextInt(allPossibleEnemiesPosition.size());
+        int powerUpsCount = random.nextInt(allPossiblePowerUpsPosition.size());
 
-        Collections.shuffle(allPosibleEnemiesPosition);
-        Collections.shuffle(allPosiblePowerUpsPosition);
-        int pigCount = random.nextInt(allPosibleEnemiesPosition.size());
-        int powerUpsCount = random.nextInt(allPosiblePowerUpsPosition.size());
-
-        allPosibleEnemiesPosition.stream().limit(pigCount).forEach(pos -> {
+        allPossibleEnemiesPosition.stream().limit(pigCount).forEach(pos -> {
             builder.placeEnemy(pos);
         });
-        allPosibleEnemiesPosition.stream().limit(powerUpsCount).forEach(pos -> {
+        allPossiblePowerUpsPosition.stream().limit(powerUpsCount).forEach(pos -> {
             builder.placePowerUp(pos, new SpeedPowerUp());
         });
 
     }
 
     public void CreateEasyLevel() {
+        reset();
         MvcGameConfig.EASY_LEVEL_ENEMY_POSITIONS.forEach(
                 position -> {
                     builder.placeEnemy(position);
                 }
         );
-        MvcGameConfig.EASY_LEVEL_POWER_UPS__POSITIONS.forEach(
+        MvcGameConfig.EASY_LEVEL_POWER_UPS_POSITIONS.forEach(
                 position -> {
                     builder.placePowerUp(position, new SpeedPowerUp());
                 }
@@ -56,12 +57,13 @@ public class Director {
     }
 
     public void CreateMediumLevel() {
+        reset();
         MvcGameConfig.MEDIUM_LEVEL_ENEMY_POSITIONS.forEach(
                 position -> {
                     builder.placeEnemy(position);
                 }
         );
-        MvcGameConfig.MEDIUM_LEVEL_POWER_UPS__POSITIONS.forEach(
+        MvcGameConfig.MEDIUM_LEVEL_POWER_UPS_POSITIONS.forEach(
                 position -> {
                     builder.placePowerUp(position, new HugeMissilePowerUp());
                 }
@@ -69,16 +71,23 @@ public class Director {
     }
 
     public void CreateHardLevel() {
+        reset();
         MvcGameConfig.HARD_LEVEL_ENEMY_POSITIONS.forEach(
                 position -> {
                     builder.placeEnemy(position);
                 }
         );
-        MvcGameConfig.HARD_LEVEL_POWER_UPS__POSITIONS.forEach(
+        MvcGameConfig.HARD_LEVEL_POWER_UPS_POSITIONS.forEach(
                 position -> {
                     builder.placePowerUp(position, new SpeedPowerUp());
                 }
         );
+    }
+
+    private void reset() {
+        seed = System.nanoTime();
+        random.setSeed(seed);
+        this.builder.reset();
     }
 
     public void setBuilder(ILevelBuilder builder) {

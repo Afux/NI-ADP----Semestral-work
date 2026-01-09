@@ -22,7 +22,6 @@ public interface IGameObjectsFactory {
 
     AbstractScene createScene();
 
-    AbstractCollision createCollision(Position pos);
 
     AbstractGameInfo createGameInfo();
 

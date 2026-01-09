@@ -2,7 +2,10 @@ package cz.cvut.fit.niadp.mvcgame.abstractFactory;
 
 import cz.cvut.fit.niadp.mvcgame.config.MvcGameConfig;
 import cz.cvut.fit.niadp.mvcgame.model.Position;
-import cz.cvut.fit.niadp.mvcgame.model.gameObjects.*;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractCannon;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractEnemy;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractMissile;
+import cz.cvut.fit.niadp.mvcgame.model.gameObjects.AbstractPowerUp;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.familyA.*;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.CannonState;
 import cz.cvut.fit.niadp.mvcgame.model.gameObjects.records.EnemyState;
@@ -48,38 +51,34 @@ public class GameObjectsFactoryA implements IGameObjectsFactory {
         return new EnemyA(pos);
     }
 
-    @Override
-    public AbstractCollision createCollision(Position pos) {
-        return new CollisionA(pos);
-    }
 
     @Override
-    public AbstractGameInfo createGameInfo() {
+    public GameInfoA createGameInfo() {
         return new GameInfoA(model);
     }
 
     @Override
-    public AbstractPowerUp createPowerUp(AbstractPowerUp powerUp) {
+    public PowerUpA createPowerUp(AbstractPowerUp powerUp) {
         return new PowerUpA(powerUp);
     }
 
     @Override
-    public AbstractCannon createCannon(AbstractCannon cannon) {
+    public CannonA createCannon(AbstractCannon cannon) {
         return new CannonA(cannon);
     }
 
     @Override
-    public AbstractEnemy createEnemy(AbstractEnemy enemy) {
+    public EnemyA createEnemy(AbstractEnemy enemy) {
         return new EnemyA(enemy);
     }
 
     @Override
-    public AbstractPowerUp createPowerUp(Position pos, IPowerUpType type) {
+    public PowerUpA createPowerUp(Position pos, IPowerUpType type) {
         return new PowerUpA(pos, type);
     }
 
     @Override
-    public AbstractCannon createCannonFromState(CannonState cannon) {
+    public CannonA createCannonFromState(CannonState cannon) {
         return new CannonA(cannon, this);
 
     }

@@ -11,7 +11,6 @@ public interface IVisitor {
 
     void visit(AbstractScene abstractScene);
 
-    void visit(AbstractCollision abstractCollision);
 
     void visit(AbstractGameInfo gameInfo);
 
